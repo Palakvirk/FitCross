@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Personal Trainer - FitCross</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Library for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6d28d9;
+            --secondary-color: #4f46e5;
+            --dark-color: #111827;
+            --light-color: #f9fafb;
+            --accent-color: #10b981;
+            --danger-color: #ef4444;
+            --text-light: #f3f4f6;
+            --text-dark: #1f2937;
+            --gray-dark: #1f2937;
+            --gray-medium: #4b5563;
+            --gray-light: #9ca3af;
+        }
+        
+        body {
+            background-color: var(--dark-color);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: #000;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to top, var(--dark-color), transparent);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        /* AI Features Section */
+        .ai-features {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .ai-features h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .ai-features h2 span {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: 6rem 0;
+            background-color: #0c0c14;
+            position: relative;
+        }
+        
+        .how-it-works::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .step-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            padding-left: 1rem;
+        }
+        
+        .step-card p {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* AI Chatbot Demo Section */
+        .chatbot-demo {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .chatbot-demo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .chatbot-container {
+            background-color: #1e1e2d;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+        
+        .chatbot-header {
+            background-color: #2c2c40;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chatbot-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .chatbot-name {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .chatbot-status {
+            color: var(--accent-color);
+            font-size: 0.8rem;
+        }
+        
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            padding: 0.8rem 1rem;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: #2c2c40;
+            border-radius: 18px 18px 18px 4px;
+            padding: 0.8rem 1rem;
+        }
+        
+        .message-content p {
+            margin: 0;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            margin-top: 0.3rem;
+            opacity: 0.7;
+            text-align: right;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            align-items: center;
+            background-color: #2c2c40;
+            padding: 0.8rem;
+            border-top: 1px solid #3a3a5a;
+        }
+        
+        .chatbot-input input {
+            flex-grow: 1;
+            background-color: #3a3a5a;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 24px;
+            color: white;
+            outline: none;
+        }
+        
+        .chatbot-input input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .chatbot-input button {
+            background-color: var(--primary-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.8rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .chatbot-input button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* AI Coach Benefits Section */
+        .ai-benefits {
+            padding: 6rem 0;
+            background-color: #0c0c14;
+            position: relative;
+        }
+        
+        .ai-benefits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .benefit-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            line-height: 1;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .benefit-card p {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        /* AI Coach Pricing Section */
+        .pricing {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .pricing::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .pricing-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pricing-header {
+            background-color: var(--primary-color);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .pricing-card.popular .pricing-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .pricing-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .pricing-duration {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .pricing-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-features {
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-feature i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+        
+        .pricing-feature.disabled {
+            color: var(--gray-medium);
+        }
+        
+        .pricing-feature.disabled i {
+            color: var(--gray-medium);
+        }
+        
+        .pricing-cta {
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: 0;
+            right: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 6rem 0;
+            background-color: #0c0c14;
+            position: relative;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .testimonial-quote {
+            font-size: 4rem;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            opacity: 0.1;
+            color: var(--primary-color);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .testimonial-info h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .testimonial-info p {
+            margin: 0;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .faq::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .faq h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .faq h2 span {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .accordion-item {
+            background-color: #1e1e2d;
+            border: 1px solid #2d2d44;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background-color: #1e1e2d;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1.2rem 1.5rem;
+            box-shadow: none;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: #2d2d44;
+            color: var(--text-light);
+            box-shadow: none;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+        
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");
+            transition: all 0.2s ease;
+        }
+        
+        .accordion-button:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-dash' viewBox='0 0 16 16'%3E%3Cpath d='M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z'/%3E%3C/svg%3E");
+        }
+        
+        .accordion-body {
+            background-color: #1e1e2d;
+            color: var(--gray-light);
+            padding: 1.5rem;
+            border-top: 1px solid #2d2d44;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 8rem 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .cta h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #000;
+            padding: 4rem 0 2rem;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .footer-links h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links ul li a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-social {
+            margin-top: 1.5rem;
+        }
+        
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1e1e2d;
+            color: var(--gray-light);
+            margin-right: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        
+        .footer-social a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #1e1e2d;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+        
+        /* Animation Additions */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bot-message.loading {
+            background-color: #2c2c40;
+        }
+        
+        .loading .message-content p::after {
+            content: "";
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { content: "."; }
+            33% { content: ".."; }
+            66% { content: "..."; }
+        }
+        
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .cta h2 {
+                font-size: 2.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .cta-buttons .btn {
+                width: 100%;
+            }
+            
+            .pricing-card {
+                max-width: 350px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="logo">FitCross</h1>
+                <nav>
+                    <a href="#" class="btn btn-outline-light btn-sm">Home</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1>Your AI Personal <br> <span style="color: var(--accent-color);">Fitness Trainer</span></h1>
+                <p>Expert coaching powered by artificial intelligence. Get personalized guidance, form correction, and motivation 24/7 to help you achieve your fitness goals faster.</p>
+                <!-- <a href="#ai-features" class="btn btn-custom">Explore AI Features</a> -->
+            </div>
+        </div>
+    </section>
+    
+    <section class="ai-features" id="ai-features">
+        <div class="container">
+            <h2 data-aos="fade-up">Advanced <span>AI Technology</span></h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon float-animation">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Intelligent Workout Design</h3>
+                        <p>Our AI analyzes thousands of exercises and training protocols to craft the perfect workout program for your specific goals, fitness level, and available equipment.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Scientific programming principles</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Progressive overload calculation</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Adaptive exercise selection</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon float-animation">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>Real-Time Form Analysis</h3>
+                        <p>Advanced computer vision technology monitors your exercise form through your device's camera, providing instant feedback to help prevent injuries and maximize results.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Joint angle assessment</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Movement path tracking</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Personalized form correction</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon float-animation">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Performance Tracking</h3>
+                        <p>Sophisticated analytics track your progress over time, identifying patterns and making real-time adjustments to your training program to ensure continuous improvement.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Personalized metrics</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Progress visualization</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Adaptive programming</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <div class="feature-icon float-animation">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>AI Coaching Assistant</h3>
+                        <p>Our natural language AI provides expert answers to all your fitness questions, explains exercise techniques, and offers motivation when you need it most.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> 24/7 expert guidance</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Personalized motivation</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Research-backed advice</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card">
+                        <div class="feature-icon float-animation">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Adaptive Training</h3>
+                        <p>The AI continuously adjusts your workout intensity, volume, and exercise selection based on your performance, recovery status, and real-time feedback.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Recovery monitoring</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Fatigue management</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Real-time modifications</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card">
+                        <div class="feature-icon float-animation">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Community Integration</h3>
+                        <p>Connect with like-minded fitness enthusiasts, share achievements, participate in AI-moderated challenges, and stay motivated through social support.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Virtual workout groups</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Achievement sharing</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> AI-generated challenges</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">How <span style="color: var(--accent-color);">It Works</span></h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Create Your Profile</h3>
+                        <p>Complete a comprehensive fitness assessment that analyzes your current fitness level, goals, medical history, available equipment, and schedule constraints.</p>
+                        <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded" alt="Profile Creation">
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Receive Your Custom Plan</h3>
+                        <p>The AI generates a personalized workout program optimized for your specific goals, constraints, and preferences with detailed exercise demonstrations.</p>
+                        <img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded" alt="Custom Plan">
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Train With AI Guidance</h3>
+                        <p>Follow along with your workouts as the AI provides real-time form feedback, counts reps, tracks rest periods, and motivates you through each session.</p>
+                        <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded" alt="AI Guidance">
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Track Your Progress</h3>
+                        <p>Monitor your improvements through comprehensive analytics that visualize your strength gains, body composition changes, and workout consistency.</p>
+                        <img src="https://images.unsplash.com/photo-1579126038374-6064e9370f0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded" alt="Progress Tracking">
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <h3>Receive Adaptive Updates</h3>
+                        <p>As you progress, the AI automatically adjusts your training program to prevent plateaus, account for your feedback, and keep you challenged at the optimal level.</p>
+                        <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded" alt="Adaptive Updates">
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <h3>Celebrate Achievements</h3>
+                        <p>Reach your milestones and set new goals as the AI celebrates your wins, provides detailed progress reports, and helps you continually evolve your fitness journey.</p>
+                        <img src="https://images.unsplash.com/photo-1526401485004-46910ecc8e51?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded" alt="Celebrate Achievements">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="chatbot-demo" id="chatbot-demo">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                    <h2 class="mb-4">Ask Our <span style="color: var(--accent-color);">AI Trainer</span></h2>
+                    <p class="mb-4">Experience the power of our AI fitness coach firsthand. Ask any fitness question and receive expert guidance instantly. From exercise technique to nutrition advice and recovery strategies, our AI has the knowledge to support your fitness journey.</p>
+                    
+                    <div class="mb-5">
+                        <div class="d-flex align-items-center mb-4">
+                            <div style="width: 50px; height: 50px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-rocket text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Powered by Advanced Language Models</h5>
+                                <p class="mb-0">Utilizing cutting-edge AI technology for accurate, personalized responses</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-4">
+                            <div style="width: 50px; height: 50px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-book text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Research-Backed Knowledge</h5>
+                                <p class="mb-0">Access a vast database of exercise science and fitness research</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div style="width: 50px; height: 50px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-history text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">24/7 Availability</h5>
+                                <p class="mb-0">Get answers whenever you need them, no matter the time or day</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="mb-3">Try These Questions:</h4>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-light text-start sample-question">How can I improve my squat form?</button>
+                            <button class="btn btn-outline-light text-start sample-question">What should I eat before a morning workout?</button>
+                            <button class="btn btn-outline-light text-start sample-question">How can I break through a weight loss plateau?</button>
+                            <button class="btn btn-outline-light text-start sample-question">What's the best way to increase my push-up count?</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="chatbot-container">
+                        <div class="chatbot-header">
+                            <div class="chatbot-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="chatbot-info">
+                                <div class="chatbot-name">FitCross AI Trainer</div>
+                                <div class="chatbot-status">Online</div>
+                            </div>
+                        </div>
+                        <div class="chatbot-messages" id="chat-messages">
+                            <!-- Initial welcome message -->
+                            <div class="message bot-message">
+                                <div class="message-content">
+                                    <p>Hello! I'm your FitCross AI Personal Trainer. Ask me anything about workouts, nutrition, or fitness strategies, and I'll provide expert guidance tailored to your needs.</p>
+                                </div>
+                                <div class="message-time">Just now</div>
+                            </div>
+                        </div>
+                        <div class="chatbot-input">
+                            <input type="text" id="user-input" placeholder="Ask me anything about fitness...">
+                            <button id="send-message"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="ai-benefits" id="ai-benefits">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Benefits of <span style="color: var(--accent-color);">AI Coaching</span></h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Always Available</h3>
+                        <p>Unlike human trainers with limited availability, your AI coach is ready to assist you 24/7. Get answers, guidance, and support whenever you need it, whether it's 3 PM or 3 AM.</p>
+                        <!-- <a href="#pricing" class="btn btn-outline-light btn-sm">Learn More</a> -->
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Data-Driven Progress</h3>
+                        <p>The AI meticulously tracks every aspect of your fitness journey, identifying patterns and opportunities for improvement that even experienced human trainers might miss.</p>
+                        <!-- <a href="#pricing" class="btn btn-outline-light btn-sm">Learn More</a> -->
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3>Cost-Effective</h3>
+                        <p>Premium personal training without the premium price tag. Get expert-level coaching at a fraction of the cost of traditional personal trainers while maintaining the highest quality guidance.</p>
+                        <!-- <a href="#pricing" class="btn btn-outline-light btn-sm">Learn More</a> -->
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-fingerprint"></i>
+                        </div>
+                        <h3>Truly Personalized</h3>
+                        <p>Beyond basic templates, our AI creates deeply personalized programs that account for your unique biomechanics, preferences, constraints, and responds to your body's adaptive patterns.</p>
+                        <!-- <a href="#pricing" class="btn btn-outline-light btn-sm">Learn More</a> -->
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Continuous Learning</h3>
+                        <p>Our AI stays updated with the latest fitness research and methodologies, ensuring you always receive cutting-edge, evidence-based guidance for optimal results.</p>
+                        <!-- <a href="#pricing" class="btn btn-outline-light btn-sm">Learn More</a> -->
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Judgment-Free Zone</h3>
+                        <p>Train in a completely private environment without fear of judgment. The AI provides objective feedback and encouragement regardless of your fitness level or experience.</p>
+                        <!-- <a href="#pricing" class="btn btn-outline-light btn-sm">Learn More</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Choose Your <span style="color: var(--accent-color);">AI Coach</span> Plan</h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <div class="pricing-name">Starter</div>
+                            <div class="pricing-price">$9.99</div>
+                            <div class="pricing-duration">per month</div>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-features">
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Basic Workout Plans</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>AI Chatbot Support</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Exercise Library Access</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Basic Progress Tracking</div>
+                                </div>
+                                <div class="pricing-feature disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    <div>Real-time Form Analysis</div>
+                                </div>
+                                <div class="pricing-feature disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    <div>Advanced Analytics</div>
+                                </div>
+                                <div class="pricing-feature disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    <div>Nutrition Planning</div>
+                                </div>
+                                <div class="pricing-feature disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    <div>Community Challenges</div>
+                                </div>
+                            </div>
+                            <div class="pricing-cta">
+                                <a href="#" class="btn btn-custom">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-card popular position-relative">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-header">
+                            <div class="pricing-name">Premium</div>
+                            <div class="pricing-price">$19.99</div>
+                            <div class="pricing-duration">per month</div>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-features">
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Advanced Workout Plans</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Enhanced AI Coach Support</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Full Exercise Library Access</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Comprehensive Progress Tracking</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Real-time Form Analysis</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Advanced Analytics Dashboard</div>
+                                </div>
+                                <div class="pricing-feature disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    <div>Nutrition Planning</div>
+                                </div>
+                                <div class="pricing-feature disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    <div>Community Challenges</div>
+                                </div>
+                            </div>
+                            <div class="pricing-cta">
+                                <a href="#" class="btn btn-custom">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background-color: #4f46e5;">
+                            <div class="pricing-name">Ultimate</div>
+                            <div class="pricing-price">$29.99</div>
+                            <div class="pricing-duration">per month</div>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-features">
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Elite Personalized Programs</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Priority AI Coach Support</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Premium Exercise Library</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Elite Progress Tracking</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Advanced Form Analysis</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Comprehensive Analytics</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Personalized Nutrition Planning</div>
+                                </div>
+                                <div class="pricing-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>Exclusive Community Challenges</div>
+                                </div>
+                            </div>
+                            <div class="pricing-cta">
+                                <a href="#" class="btn btn-custom">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+    <!-- <section class="testimonials">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Success Stories with <span style="color: var(--accent-color);">AI Coaching</span></h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div class="testimonial-content">
+                            <p>As a busy executive with an unpredictable schedule, human trainers never worked for me. The FitCross AI coach adapts to my availability instantly and has helped me lose 30 pounds in just 4 months. The form feedback was a game-changer for preventing lower back pain during deadlifts.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <span>DL</span>
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>David L.</h4>
+                                <p>Lost 30 lbs in 4 months</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div class="testimonial-content">
+                            <p>I was intimidated by gyms and trainers judging my beginner status. The AI coach provided a judgment-free environment where I could learn at my own pace. After 6 months, I've gained 15 pounds of muscle and my confidence has skyrocketed. The progress tracking keeps me motivated daily.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <span>JS</span>
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Jennifer S.</h4>
+                                <p>Gained 15 lbs of muscle</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div class="testimonial-content">
+                            <p>At 58, I thought my athletic days were behind me. The FitCross AI designed a program that respected my joint issues while still challenging me appropriately. I'm now fitter than I was in my 40s and have completed my first 10K race. The adaptive training adjusted perfectly to my recovery needs.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <span>RJ</span>
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Robert J.</h4>
+                                <p>Completed first 10K at 58</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+    <!-- <section class="faq">
+        <div class="container">
+            <h2 class="mb-5" data-aos="fade-up">Frequently Asked <span>Questions</span></h2>
+            
+            <div class="accordion" id="faqAccordion" data-aos="fade-up">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            How does the AI personal trainer work?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Our AI personal trainer uses advanced machine learning algorithms to create personalized workout plans, provide real-time form feedback through computer vision technology, and adapt to your progress over time. It combines exercise science principles with your specific data to deliver tailored coaching experiences. The AI continuously learns from your performance, preferences, and feedback to optimize your training program for maximum results.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            What equipment do I need to use the AI trainer?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The minimum requirement is a smartphone or tablet with a camera and internet connection. For optimal form analysis, we recommend positioning your device to capture your full body during exercises. The AI trainer is designed to create workouts with whatever equipment you have available—whether that's a fully equipped gym, basic home gym setup, or just your bodyweight. During the initial setup, you'll specify what equipment you have access to, and the AI will design your program accordingly.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Is the AI trainer suitable for beginners?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Absolutely! Our AI trainer is especially beneficial for beginners as it provides comprehensive guidance on proper form, appropriate exercise selection, and progressive intensity. The system starts with a thorough assessment of your current fitness level and gradually introduces more challenging exercises as your strength and coordination improve. For beginners, the AI places special emphasis on foundational movement patterns, proper technique, and building consistency—key factors for long-term success and injury prevention.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item"> -->
+                    <!-- <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            How accurate is the form analysis feature?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Our form analysis technology has been trained on millions of exercise repetitions across diverse body types and movement patterns, achieving an average accuracy rate of 95% for major compound exercises. The system analyzes 17 key body points at 30 frames per second to detect improper form, range of motion issues, and potential injury risks. While no technology is perfect, our AI provides form guidance comparable to experienced human trainers and continuously improves through machine learning. For specialized exercises or complex movements, the system will acknowledge limitations and provide general guidance.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Can I customize the workout programs?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, extensive customization is available! While the AI creates an optimized program based on your profile, you can modify almost every aspect: swap exercises you dislike, adjust workout duration, change training splits, prioritize certain muscle groups, and even incorporate specific exercises you enjoy. After each workout, you can provide feedback that the AI uses to refine future sessions. You can also set scheduling preferences, equipment limitations, and exercise restrictions due to injuries or personal preference. The goal is to create a program that's scientifically sound while being enjoyable and practical for your lifestyle.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            What makes this better than following YouTube workout videos?
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Unlike generic workout videos, our AI trainer creates a progressive, personalized program specifically for your goals, fitness level, and constraints. It provides real-time form feedback during exercises—something videos can't offer—and adapts your program based on your performance and recovery. While YouTube videos are static, our AI continuously modifies your training plan to prevent plateaus, address weaknesses, and accelerate progress. Additionally, the AI tracks all your workouts, analyzes trends, and offers actionable insights to optimize your fitness journey. It's the difference between watching someone exercise versus having a dedicated coach guiding your specific journey.
+                        </div>
+                    </div>
+                </div> -->
+            <!-- </div>
+        </div>
+    </section> -->
+    
+    <section class="cta">
+        <div class="container">
+            <h2 data-aos="fade-up">Transform Your Fitness Journey Today</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Experience the future of personal training with FitCross AI. Get started now with a personalized program designed specifically for your goals, body, and lifestyle.</p>
+            <div class="cta-buttons" data-aos="fade-up" data-aos-delay="200">
+                <!-- <a href="#pricing" class="btn btn-custom btn-lg">Choose Your Plan</a> -->
+                <!-- <a href="#how-it-works" class="btn btn-outline-light btn-lg">Learn More</a> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="footer-logo">FitCross</div>
+                    <p class="mb-3">Your AI-powered fitness partner. Personalized training and expert guidance for your ultimate transformation.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <div class="footer-links"> -->
+                        <!-- <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#ai-features">Features</a></li> -->
+                            <!-- <li><a href="#how-it-works">How It Works</a></li> -->
+                            <!-- <li><a href="#pricing">Pricing</a></li> -->
+                            <!-- <li><a href="#faq">FAQ</a></li> -->
+                        <!-- </ul>
+                    </div>
+                </div> -->
+                
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>Resources</h5>
+                        <ul>
+                            <!-- <li><a href="#">Exercise Library</a></li> -->
+                            <li><a href="#">Nutrition Guide</a></li>
+                            <li><a href="#">Fitness Blog</a></li>
+                            <!-- <li><a href="#">Success Stories</a></li> -->
+                            <li><a href="#">Home</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-md-4">
+                    <div class="footer-links">
+                        <h5>Newsletter</h5>
+                        <p class="mb-3">Subscribe to get the latest AI fitness updates and exclusive training tips.</p>
+                        <form>
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control" placeholder="Your email" aria-label="Your email">
+                                <button class="btn btn-outline-light" type="submit">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitCross. All rights reserved. Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS (Animate On Scroll)
+            AOS.init({
+                duration: 800,
+                once: false
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Chatbot functionality
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-message');
+            const chatMessages = document.getElementById('chat-messages');
+            const sampleQuestions = document.querySelectorAll('.sample-question');
+            
+            // AI Trainer responses
+            const responses = {
+                "how can i improve my squat form": "To improve your squat form, focus on these key points:\n\n1. Keep your feet shoulder-width apart with toes slightly pointed outward\n2. Maintain a neutral spine throughout the movement\n3. Drive your knees outward (in line with toes) as you descend\n4. Lower until your thighs are at least parallel to the ground\n5. Keep your weight in your heels and midfoot\n6. Brace your core throughout the movement\n\nStart with bodyweight squats to perfect your form before adding weight. Consider recording yourself from the side to check your depth and back position.",
+                
+                "what should i eat before a morning workout": "For morning workouts, timing and composition are key:\n\n• If you have 60-90 minutes before training: Consume a balanced meal with carbs and moderate protein (e.g., oatmeal with protein powder and banana)\n\n• If you have 30 minutes before training: Opt for easily digestible carbs (e.g., half a banana, or a slice of toast with honey)\n\n• If you train fasted: Consider BCAAs or a small amount of whey protein isolate to minimize muscle breakdown\n\nHydration is crucial - drink at least 16oz of water upon waking, regardless of your pre-workout nutrition choice.",
+                
+                "how can i break through a weight loss plateau": "To break through a weight loss plateau:\n\n1. Recalculate your calorie needs (your metabolism slows as you lose weight)\n2. Increase activity level by adding 5-10 minutes to workouts or including more daily movement\n3. Implement carb cycling or strategic refeed days to reset hormones\n4. Add strength training if you're only doing cardio\n5. Ensure adequate sleep (7-9 hours) to regulate hunger hormones\n6. Manage stress levels as cortisol can promote fat storage\n7. Track food intake meticulously - 'calorie creep' is common in plateaus\n\nPlateaus are normal and often temporary - consistency and patience are key.",
+                
+                "what's the best way to increase my push-up count": "To increase your push-up count:\n\n1. Use the 'grease the groove' method: Do multiple sets of push-ups throughout the day at 50-70% of your max reps\n\n2. Implement progressive overload by adding 1-2 reps per workout\n\n3. Strengthen supporting muscles with exercises like planks, tricep dips, and shoulder presses\n\n4. Use variations to target weaknesses (diamond push-ups for triceps, decline for shoulders)\n\n5. Follow a structured program like the '100 push-ups challenge'\n\n6. Ensure adequate recovery with 48 hours between intense push-up sessions\n\nConsistency is critical - train push-ups at least 3 times per week for optimal progress."
+            };
+            
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (!message) return;
+                
+                // Add user message to chat
+                const userMessageElement = document.createElement('div');
+                userMessageElement.className = 'message user-message';
+                userMessageElement.innerHTML = `
+                    <div class="message-content">
+                        <p>${message}</p>
+                    </div>
+                    <div class="message-time">Just now</div>
+                `;
+                chatMessages.appendChild(userMessageElement);
+                
+                // Clear input field
+                userInput.value = '';
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Show loading indicator
+                const loadingElement = document.createElement('div');
+                loadingElement.className = 'message bot-message loading';
+                loadingElement.innerHTML = `
+                    <div class="message-content">
+                        <p>Thinking</p>
+                    </div>
+                `;
+                chatMessages.appendChild(loadingElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Process message and get response after a delay
+                setTimeout(() => {
+                    // Remove loading indicator
+                    chatMessages.removeChild(loadingElement);
+                    
+                    // Get response based on user message
+                    let response = "I'll need to research that further to give you the best guidance. In the full app, I would provide a detailed, science-backed response to your question using my extensive fitness knowledge database.";
+                    
+                    // Check for known responses
+                    const messageLower = message.toLowerCase();
+                    for (const key in responses) {
+                        if (messageLower.includes(key)) {
+                            response = responses[key];
+                            break;
+                        }
+                    }
+                    
+                    // Add bot response
+                    const botMessageElement = document.createElement('div');
+                    botMessageElement.className = 'message bot-message';
+                    botMessageElement.innerHTML = `
+                        <div class="message-content">
+                            <p>${response}</p>
+                        </div>
+                        <div class="message-time">Just now</div>
+                    `;
+                    chatMessages.appendChild(botMessageElement);
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1500);
+            }
+            
+            // Event listener for send button
+            sendButton.addEventListener('click', sendMessage);
+            
+            // Event listener for enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Event listeners for sample questions
+            sampleQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    userInput.value = this.textContent;
+                    sendMessage();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+a

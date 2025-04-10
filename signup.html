@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - FitCross</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Inline CSS -->
+    <style>
+        /* Google Fonts Import */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* Global Variables */
+        :root {
+            --primary-color: #FF5722;
+            --secondary-color: #03DAC6;
+            --dark-bg: #121212;
+            --dark-surface: #1E1E1E;
+            --dark-surface-2: #292929;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --accent-purple: #BB86FC;
+            --accent-pink: #FF0266;
+            --success: #00E676;
+            --warning: #FFD600;
+            --error: #CF6679;
+            --transition-fast: 0.3s;
+            --transition-medium: 0.5s;
+            --transition-slow: 0.8s;
+            --border-radius: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Logo Animation */
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-fit {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 2rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .logo-cross {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 2rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        /* Loading Screen */
+        /* .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity var(--transition-medium);
+        } */
+
+        .loading.hidden {
+            opacity: 0;
+        }
+
+        .loading-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .loading-fit {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 3rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .loading-cross {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 3rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(18, 18, 18, 0.98);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            transition: background-color var(--transition-medium);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            bottom: -4px;
+            left: 0;
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-fast);
+            margin-left: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff441f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.3);
+        }
+
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            margin-left: 0;
+            margin-bottom: 1rem;
+        }
+
+        .btn-google {
+            background-color: #DB4437;
+            color: white;
+        }
+
+        .btn-facebook {
+            background-color: #4267B2;
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Signup Styles */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1rem 3rem;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .auth-card {
+            background-color: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--dark-surface-2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            transition: border-color var(--transition-fast);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-select {
+            width: 100%;
+            background-color: var(--dark-surface-2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            transition: border-color var(--transition-fast);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23B0B0B0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+        }
+
+        .form-check-input {
+            margin-right: 0.5rem;
+            margin-top: 0.3rem;
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+            user-select: none;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .invalid-feedback {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .btn-block {
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .social-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .social-divider::before,
+        .social-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-divider span {
+            padding: 0 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-surface);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                clip-path: circle(0% at top right);
+                transition: clip-path var(--transition-medium);
+            }
+            
+            .nav-links.active {
+                clip-path: circle(150% at top right);
+            }
+            
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                margin: 0.2rem 0;
+            }
+            
+            .auth-card {
+                padding: 1.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-logo">
+            <div class="loading-fit">FIT</div>
+            <div class="loading-cross">CROSS</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="FitCross_Frontend.html" class="logo">
+                <span class="logo-fit">FIT</span>
+                <span class="logo-cross">CROSS</span>
+            </a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html">Home</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#features">Features</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#workout-plans">Workouts</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#diet-charts">Diet</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="FitCross_Login.html" class="btn btn-secondary">Login</a>
+                <a href="FitCross_Signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>Create Your Account</h2>
+                    <p>Join FitCross and start your fitness journey</p>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Choose a username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Create a password">
+                        </div>
+                        <div class="form-col">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" placeholder="Confirm your password">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="diet_preference" class="form-label">Diet Preference</label>
+                            <select class="form-select" id="diet_preference">
+                                <option value="" disabled selected>Select your diet preference</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="non-vegetarian">Non-Vegetarian</option>
+                                <option value="eggetarian">Eggetarian</option>
+                            </select>
+                        </div>
+                        <div class="form-col">
+                            <label for="fitness_level" class="form-label">Fitness Level</label>
+                            <select class="form-select" id="fitness_level">
+                                <option value="" disabled selected>Select your fitness level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="terms">
+                        <label for="terms" class="form-check-label">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                </form>
+                
+                <div class="social-divider">
+                    <span>Or sign up with</span>
+                </div>
+                
+                <button class="btn btn-social btn-google">
+                    <i class="fab fa-google"></i>
+                    <a href="https://accounts.google.com/v3/signin/identifier?ifkv=AXH0vVss48OUAH9pMMH_sP68i3QNzcDSMOSpUqil6eFSqhBR0U3qk26HTsG1tfDdBdWFWjqe1pr6&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1764784578%3A1743841075143841">Google</a>
+                </button>
+                <button class="btn btn-social btn-facebook">
+                    <i class="fab fa-facebook-f"></i>
+                    <a href="https://www.facebook.com/login.php/">Facebook</a>
+                </button>
+                
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="FitCross_Login.html">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitCross. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Inline JavaScript -->
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loading animation
+            setTimeout(function() {
+                const loader = document.querySelector('.loading');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 500);
+                }
+            }, 1500);
+
+            // Mobile menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Form validation
+            const form = document.querySelector('form');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirm_password');
+            const terms = document.getElementById('terms');
+            
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    
+                    // Validate passwords match
+                    if (password.value !== confirmPassword.value) {
+                        e.preventDefault();
+                        const errorSpan = document.createElement('div');
+                        errorSpan.classList.add('invalid-feedback');
+                        errorSpan.textContent = 'Passwords do not match';
+                        
+                        if (!confirmPassword.nextElementSibling || !confirmPassword.nextElementSibling.classList.contains('invalid-feedback')) {
+                            confirmPassword.insertAdjacentElement('afterend', errorSpan);
+                        }
+                        
+                        confirmPassword.classList.add('is-invalid');
+                        isValid = false;
+                    } else if (confirmPassword.classList.contains('is-invalid')) {
+                        confirmPassword.classList.remove('is-invalid');
+                        if (confirmPassword.nextElementSibling && confirmPassword.nextElementSibling.classList.contains('invalid-feedback')) {
+                            confirmPassword.nextElementSibling.remove();
+                        }
+                    }
+                    
+                    // Check terms agreement
+                    if (!terms.checked) {
+                        e.preventDefault();
+                        const errorSpan = document.createElement('div');
+                        errorSpan.classList.add('invalid-feedback');
+                        errorSpan.textContent = 'You must agree to the terms';
+                        
+                        if (!terms.parentElement.nextElementSibling || !terms.parentElement.nextElementSibling.classList.contains('invalid-feedback')) {
+                            terms.parentElement.insertAdjacentElement('afterend', errorSpan);
+                        }
+                        
+                        isValid = false;
+                    } else if (terms.parentElement.nextElementSibling && terms.parentElement.nextElementSibling.classList.contains('invalid-feedback')) {
+                        terms.parentElement.nextElementSibling.remove();
+                    }
+                    
+                    if (isValid) {
+                        // This would normally submit to the server
+                        e.preventDefault(); // Just for demo
+                        alert('Account created successfully! You can now login.');
+                        window.location.href = 'FitCross_Login.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

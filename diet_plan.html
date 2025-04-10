@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Diet Chart - FitCross</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Library for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6d28d9;
+            --secondary-color: #4f46e5;
+            --dark-color: #111827;
+            --light-color: #f9fafb;
+            --accent-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --text-light: #f3f4f6;
+            --text-dark: #1f2937;
+            --gray-dark: #1f2937;
+            --gray-medium: #4b5563;
+            --gray-light: #9ca3af;
+        }
+        
+        body {
+            background-color: var(--dark-color);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: #000;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to top, var(--dark-color), transparent);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        /* Nutrition Approach Section */
+        .nutrition-approach {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .nutrition-approach h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .nutrition-approach h2 span {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .approach-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .approach-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .approach-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .approach-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .approach-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .approach-card p {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Diet Types Section */
+        .diet-types {
+            padding: 6rem 0;
+            background-color: #0c0c14;
+            position: relative;
+        }
+        
+        .diet-types::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .diet-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .diet-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .diet-header {
+            background-color: var(--primary-color);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .diet-header h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .diet-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .diet-features {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .diet-feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .diet-feature i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+            margin-top: 0.3rem;
+        }
+        
+        .diet-cta {
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        /* Macronutrient Calculator Section */
+        .macro-calculator {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .macro-calculator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .calculator-form {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+        
+        .form-control {
+            background-color: #3a3a5a;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .form-control:focus {
+            background-color: #434370;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+        
+        .form-control::placeholder {
+            color: var(--gray-light);
+        }
+        
+        .form-select {
+            background-color: #3a3a5a;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .form-select:focus {
+            background-color: #434370;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+        
+        /* Sample Meal Plans Section */
+        .meal-plans {
+            padding: 6rem 0;
+            background-color: #0c0c14;
+            position: relative;
+        }
+        
+        .meal-plans::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .meal-plan-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .meal-plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .meal-header {
+            background-color: var(--primary-color);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .meal-header h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .meal-body {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+        
+        .meal-time {
+            margin-bottom: 1.5rem;
+        }
+        
+        .meal-time h4 {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .meal-time h4 i {
+            margin-right: 0.5rem;
+        }
+        
+        .meal-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--primary-color);
+        }
+        
+        .meal-item p {
+            margin: 0;
+            color: var(--text-light);
+        }
+        
+        .meal-item small {
+            color: var(--gray-light);
+            font-size: 0.8rem;
+        }
+        
+        .macros {
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+        
+        .macro-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .macro-item span {
+            font-weight: 600;
+        }
+        
+        /* Results Section */
+        .calculator-results {
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-header h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        .result-values {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-value {
+            text-align: center;
+            padding: 1rem;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .result-value h4 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-value p {
+            font-size: 1rem;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+        
+        .result-actions {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .result-actions .btn {
+            margin: 0 0.5rem;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 6rem 0;
+            background-color: var(--dark-color);
+            position: relative;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d44);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .testimonial-quote {
+            font-size: 4rem;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            opacity: 0.1;
+            color: var(--primary-color);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .testimonial-info h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .testimonial-info p {
+            margin: 0;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 0;
+            background-color: #0c0c14;
+            position: relative;
+        }
+        
+        .faq::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .faq h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .faq h2 span {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .accordion-item {
+            background-color: #1e1e2d;
+            border: 1px solid #2d2d44;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background-color: #1e1e2d;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1.2rem 1.5rem;
+            box-shadow: none;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: #2d2d44;
+            color: var(--text-light);
+            box-shadow: none;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+        
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");
+            transition: all 0.2s ease;
+        }
+        
+        .accordion-button:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-dash' viewBox='0 0 16 16'%3E%3Cpath d='M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z'/%3E%3C/svg%3E");
+        }
+        
+        .accordion-body {
+            background-color: #1e1e2d;
+            color: var(--gray-light);
+            padding: 1.5rem;
+            border-top: 1px solid #2d2d44;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #000;
+            padding: 4rem 0 2rem;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .footer-links h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links ul li a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-social {
+            margin-top: 1.5rem;
+        }
+        
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1e1e2d;
+            color: var(--gray-light);
+            margin-right: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        
+        .footer-social a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #1e1e2d;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+        
+        /* Animation Additions */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .approach-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .calculator-form {
+                padding: 2rem;
+            }
+            
+            .result-value {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="logo">FitCross</h1>
+                <nav>
+                    <a href="#" class="btn btn-outline-light btn-sm">Home</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1>Custom Diet Plans <br> <span style="color: var(--accent-color);">Tailored to Your Body</span></h1>
+                <p>Science-backed nutrition plans designed around your unique metabolism, goals, and dietary preferences. Fuel your body optimally to maximize your fitness results.</p>
+                <!-- <a href="#macro-calculator" class="btn btn-custom">Create Your Diet Plan</a> -->
+            </div>
+        </div>
+    </section>
+    
+    <section class="nutrition-approach" id="nutrition-approach">
+        <div class="container">
+            <h2 data-aos="fade-up">Our <span>Nutrition</span> Philosophy</h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="approach-card">
+                        <div class="approach-icon float-animation">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h3>Personalized Approach</h3>
+                        <p>We recognize that every body is unique. Your diet plan is tailored to your specific metabolic rate, body composition, activity level, and genetic factors.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Customized for your metabolism</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Adjusted to your body type</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Aligned with your activity level</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="approach-card">
+                        <div class="approach-icon float-animation">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Evidence-Based Nutrition</h3>
+                        <p>Our nutritional recommendations are grounded in the latest scientific research, not fad diets or temporary trends. We focus on sustainable, proven dietary approaches.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Based on peer-reviewed research</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Continuously updated approach</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Focus on long-term health</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="approach-card">
+                        <div class="approach-icon float-animation">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Balance Over Restriction</h3>
+                        <p>We believe in balanced nutrition that includes all food groups in appropriate proportions. Our plans focus on adding nutritious foods rather than severe restriction.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> No extreme eliminations</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Emphasis on whole foods</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Sustainable eating patterns</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="approach-card">
+                        <div class="approach-icon float-animation">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3>Lifestyle Integration</h3>
+                        <p>Your nutrition plan is designed to fit seamlessly into your life, accounting for your schedule, food preferences, cooking skills, and cultural considerations.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Adaptable to your schedule</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Respectful of food preferences</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Culturally considerate options</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="approach-card">
+                        <div class="approach-icon float-animation">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Progressive Adjustment</h3>
+                        <p>As your body changes and adapts, so does your nutrition plan. We incorporate regular assessments and adjustments to ensure continuous progress toward your goals.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Regular plan reviews</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Metabolic adaptation accounting</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Goal-based modifications</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="approach-card">
+                        <div class="approach-icon float-animation">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <h3>Nutrient-Dense Focus</h3>
+                        <p>We emphasize the quality of your nutrition, prioritizing nutrient-dense whole foods that provide optimal vitamins, minerals, and phytonutrients for recovery and performance.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Micronutrient optimization</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Anti-inflammatory food focus</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Performance-enhancing choices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="diet-types">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Choose Your <span style="color: var(--accent-color);">Dietary Approach</span></h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="diet-card">
+                        <div class="diet-header" style="background-color: #10b981;">
+                            <h3>Vegetarian</h3>
+                        </div>
+                        <div class="diet-body">
+                            <div class="diet-features">
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Plant-Based Protein Sources</strong>
+                                        <p>Complete nutrition with legumes, tofu, tempeh, seitan, and dairy options to meet your protein needs.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Nutrient Optimization</strong>
+                                        <p>Strategic combinations to ensure adequate iron, B12, zinc, and omega-3 consumption.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Diverse Recipe Options</strong>
+                                        <p>Extensive library of flavorful, satisfying vegetarian meals for all tastes.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Performance Support</strong>
+                                        <p>Specially formulated to support athletic performance and recovery without meat.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diet-cta">
+                                <!-- <a href="#macro-calculator" class="btn btn-custom">Choose Vegetarian Plan</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="diet-card">
+                        <div class="diet-header">
+                            <h3>Non-Vegetarian</h3>
+                        </div>
+                        <div class="diet-body">
+                            <div class="diet-features">
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Balanced Protein Sources</strong>
+                                        <p>Strategic inclusion of lean meats, poultry, fish, and plant proteins for optimal amino acid profiles.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Portion Optimization</strong>
+                                        <p>Precise animal protein portions balanced with plant foods for health and fitness goals.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Nutrient Density Focus</strong>
+                                        <p>Emphasis on high-quality animal proteins paired with abundant vegetables and whole grains.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Flexible Approach</strong>
+                                        <p>Options for varying animal protein intake based on your preferences and needs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diet-cta">
+                                <!-- <a href="#macro-calculator" class="btn btn-custom">Choose Non-Vegetarian Plan</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="diet-card">
+                        <div class="diet-header" style="background-color: #f59e0b;">
+                            <h3>Eggetarian</h3>
+                        </div>
+                        <div class="diet-body">
+                            <div class="diet-features">
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Egg-Based Protein Strategy</strong>
+                                        <p>Leveraging eggs as a high-quality, complete protein source alongside vegetarian options.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Nutrient-Rich Combinations</strong>
+                                        <p>Strategic meals combining eggs with complementary foods to maximize nutritional benefits.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Creative Meal Planning</strong>
+                                        <p>Diverse egg preparations integrated throughout the day for variety and satisfaction.</p>
+                                    </div>
+                                </div>
+                                <div class="diet-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>Performance Optimization</strong>
+                                        <p>Egg-centric approach to meeting protein needs for muscle recovery and growth.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diet-cta">
+                                <!-- <a href="#macro-calculator" class="btn btn-custom">Choose Eggetarian Plan</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- <section class="macro-calculator" id="macro-calculator">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                    <h2 class="mb-4">Calculate Your <span style="color: var(--accent-color);">Macros</span></h2>
+                    <p class="mb-4">Our precision nutrition calculator determines your ideal calorie and macronutrient intake based on your unique body metrics, activity level, and goals.</p>
+                    
+                    <div class="mb-5">
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="width: 40px; height: 40px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-calculator text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Scientific Calculations</h5>
+                                <p class="mb-0">Using validated formulas to determine your precise energy requirements</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="width: 40px; height: 40px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-balance-scale text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Optimal Macro Ratios</h5>
+                                <p class="mb-0">Personalized protein, carb and fat proportions for your specific goals</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div style="width: 40px; height: 40px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-utensils text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Meal Plan Generator</h5>
+                                <p class="mb-0">Converts your macros into delicious, practical meal plans</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="calculator-form">
+                        <form id="macro-form">
+                            <div class="form-group">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" required>
+                                    <option value="" selected disabled>Select your gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" placeholder="Years" required min="18" max="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="weight" class="form-label">Weight</label>
+                                        <input type="number" class="form-control" id="weight" placeholder="kg" required min="30" max="250">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="height" class="form-label">Height</label>
+                                        <input type="number" class="form-control" id="height" placeholder="cm" required min="120" max="250">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="activity" class="form-label">Activity Level</label>
+                                        <select class="form-select" id="activity" required>
+                                            <option value="" selected disabled>Select level</option>
+                                            <option value="1.2">Sedentary (office job)</option>
+                                            <option value="1.375">Light Exercise (1-2 days/week)</option>
+                                            <option value="1.55">Moderate Exercise (3-5 days/week)</option>
+                                            <option value="1.725">Heavy Exercise (6-7 days/week)</option>
+                                            <option value="1.9">Athlete (2x per day)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="goal" class="form-label">Fitness Goal</label>
+                                <select class="form-select" id="goal" required>
+                                    <option value="" selected disabled>Select your goal</option>
+                                    <option value="lose">Lose Weight</option>
+                                    <option value="maintain">Maintain Weight</option>
+                                    <option value="gain">Gain Muscle</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="diet-type" class="form-label">Diet Preference</label>
+                                <select class="form-select" id="diet-type" required>
+                                    <option value="" selected disabled>Select diet type</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="non-vegetarian">Non-Vegetarian</option>
+                                    <option value="eggetarian">Eggetarian</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-custom w-100">Calculate My Macros</button>
+                        </form>
+                        
+                        <div class="calculator-results" id="macro-results">
+                            <div class="result-header">
+                                <h3>Your Personalized Nutrition Plan</h3>
+                                <p>Based on your metrics and goals</p>
+                            </div>
+                            
+                            <div class="result-values">
+                                <div class="result-value">
+                                    <h4 id="calories-result">2100</h4>
+                                    <p>Calories/day</p>
+                                </div>
+                                <div class="result-value">
+                                    <h4 id="protein-result">140g</h4>
+                                    <p>Protein</p>
+                                </div>
+                                <div class="result-value">
+                                    <h4 id="carbs-result">210g</h4>
+                                    <p>Carbs</p>
+                                </div>
+                                <div class="result-value">
+                                    <h4 id="fat-result">70g</h4>
+                                    <p>Fat</p>
+                                </div>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <a href="#meal-plans" class="btn btn-custom">See Sample Meal Plan</a>
+                                <a href="#" class="btn btn-outline-light">Get Full Plan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+    <section class="meal-plans" id="meal-plans">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Sample <span style="color: var(--accent-color);">Meal Plans</span></h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="meal-plan-card">
+                        <div class="meal-header" style="background-color: #10b981;">
+                            <h3>Vegetarian Plan</h3>
+                        </div>
+                        <div class="meal-body">
+                            <div class="meal-time">
+                                <h4><i class="far fa-sun"></i> Breakfast</h4>
+                                <div class="meal-item">
+                                    <p>Greek Yogurt Parfait with Mixed Berries</p>
+                                    <small>Greek yogurt, berries, honey, almonds, chia seeds</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Whole Grain Toast</p>
+                                    <small>With avocado and poached egg</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-coffee"></i> Mid-Morning Snack</h4>
+                                <div class="meal-item">
+                                    <p>Protein Smoothie</p>
+                                    <small>Plant protein, banana, spinach, almond milk</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-cloud-sun"></i> Lunch</h4>
+                                <div class="meal-item">
+                                    <p>Mediterranean Quinoa Bowl</p>
+                                    <small>Quinoa, chickpeas, cucumber, tomato, feta, olives</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Lemon Tahini Dressing</p>
+                                    <small>Homemade with fresh lemon juice</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-cookie"></i> Afternoon Snack</h4>
+                                <div class="meal-item">
+                                    <p>Edamame & Cottage Cheese</p>
+                                    <small>With cherry tomatoes and herbs</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-moon"></i> Dinner</h4>
+                                <div class="meal-item">
+                                    <p>Lentil & Vegetable Curry</p>
+                                    <small>Red lentils, cauliflower, spinach, coconut milk</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Brown Rice</p>
+                                    <small>With turmeric and black pepper</small>
+                                </div>
+                            </div>
+                            
+                            <div class="macros">
+                                <div class="macro-item">
+                                    <span>Calories:</span>
+                                    <span>1,950 kcal</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Protein:</span>
+                                    <span>105g (22%)</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Carbs:</span>
+                                    <span>230g (47%)</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Fat:</span>
+                                    <span>68g (31%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="meal-plan-card">
+                        <div class="meal-header">
+                            <h3>Non-Vegetarian Plan</h3>
+                        </div>
+                        <div class="meal-body">
+                            <div class="meal-time">
+                                <h4><i class="far fa-sun"></i> Breakfast</h4>
+                                <div class="meal-item">
+                                    <p>Spinach & Turkey Bacon Omelet</p>
+                                    <small>Whole eggs, egg whites, spinach, turkey bacon</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Oatmeal with Berries</p>
+                                    <small>Steel-cut oats, mixed berries, walnuts</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-coffee"></i> Mid-Morning Snack</h4>
+                                <div class="meal-item">
+                                    <p>Greek Yogurt with Honey</p>
+                                    <small>Low-fat Greek yogurt, honey, almonds</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-cloud-sun"></i> Lunch</h4>
+                                <div class="meal-item">
+                                    <p>Grilled Chicken Salad</p>
+                                    <small>Lean chicken breast, mixed greens, cherry tomatoes, avocado</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Olive Oil & Balsamic Vinaigrette</p>
+                                    <small>Homemade with extra virgin olive oil</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-cookie"></i> Afternoon Snack</h4>
+                                <div class="meal-item">
+                                    <p>Protein Shake with Apple</p>
+                                    <small>Whey protein, almond milk, apple</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-moon"></i> Dinner</h4>
+                                <div class="meal-item">
+                                    <p>Baked Salmon with Herbs</p>
+                                    <small>Wild-caught salmon, lemon, dill, garlic</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Roasted Sweet Potato & Broccoli</p>
+                                    <small>With olive oil and fresh herbs</small>
+                                </div>
+                            </div>
+                            
+                            <div class="macros">
+                                <div class="macro-item">
+                                    <span>Calories:</span>
+                                    <span>2,100 kcal</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Protein:</span>
+                                    <span>160g (30%)</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Carbs:</span>
+                                    <span>185g (35%)</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Fat:</span>
+                                    <span>82g (35%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="meal-plan-card">
+                        <div class="meal-header" style="background-color: #f59e0b;">
+                            <h3>Eggetarian Plan</h3>
+                        </div>
+                        <div class="meal-body">
+                            <div class="meal-time">
+                                <h4><i class="far fa-sun"></i> Breakfast</h4>
+                                <div class="meal-item">
+                                    <p>Veggie Egg Scramble</p>
+                                    <small>Whole eggs, bell peppers, onions, spinach, feta</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Multigrain Toast</p>
+                                    <small>With avocado and cherry tomatoes</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-coffee"></i> Mid-Morning Snack</h4>
+                                <div class="meal-item">
+                                    <p>Protein Smoothie Bowl</p>
+                                    <small>Whey protein, banana, berries, granola</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-cloud-sun"></i> Lunch</h4>
+                                <div class="meal-item">
+                                    <p>Egg & Vegetable Quinoa Bowl</p>
+                                    <small>Hard-boiled eggs, quinoa, roasted vegetables, pumpkin seeds</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Yogurt Herb Dressing</p>
+                                    <small>Greek yogurt, fresh herbs, lemon juice</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-cookie"></i> Afternoon Snack</h4>
+                                <div class="meal-item">
+                                    <p>Cottage Cheese with Fruit</p>
+                                    <small>Low-fat cottage cheese, pineapple, walnuts</small>
+                                </div>
+                            </div>
+                            
+                            <div class="meal-time">
+                                <h4><i class="fas fa-moon"></i> Dinner</h4>
+                                <div class="meal-item">
+                                    <p>Spinach & Ricotta Frittata</p>
+                                    <small>Eggs, spinach, ricotta, cherry tomatoes, herbs</small>
+                                </div>
+                                <div class="meal-item">
+                                    <p>Roasted Vegetable Medley</p>
+                                    <small>Zucchini, bell peppers, eggplant, olive oil</small>
+                                </div>
+                            </div>
+                            
+                            <div class="macros">
+                                <div class="macro-item">
+                                    <span>Calories:</span>
+                                    <span>2,050 kcal</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Protein:</span>
+                                    <span>130g (25%)</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Carbs:</span>
+                                    <span>205g (40%)</span>
+                                </div>
+                                <div class="macro-item">
+                                    <span>Fat:</span>
+                                    <span>80g (35%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="text-center mt-4" data-aos="fade-up"> -->
+                <!-- <a href="#macro-calculator" class="btn btn-custom">Create My Custom Meal Plan</a> -->
+            <!-- </div> -->
+        </div>
+    </section>
+    
+    <!-- <section class="testimonials">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Success Stories with <span style="color: var(--accent-color);">FitCross</span> Nutrition</h2>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div class="testimonial-content">
+                            <p>I've tried countless diets before, but none of them were sustainable. The FitCross custom diet plan changed everything. I've lost 35 pounds in 6 months while eating foods I actually enjoy. For the first time, I feel like I have a nutrition approach I can maintain for life.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <span>AR</span>
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Amanda R.</h4>
+                                <p>Lost 35 lbs in 6 months</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div class="testimonial-content">
+                            <p>As a vegetarian athlete, I struggled to get enough protein. My FitCross nutrition plan solved this problem completely. My recovery has improved dramatically, and I've gained 12 pounds of lean muscle mass in just 4 months. The meal variety keeps me excited about my diet.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <span>MJ</span>
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Michael J.</h4>
+                                <p>Vegetarian bodybuilder</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div class="testimonial-content">
+                            <p>FitCross's customized nutrition plan changed my relationship with food. I used to count every calorie obsessively, but now I understand macronutrients and how to fuel my body properly. My energy levels are consistent throughout the day, and I've improved my marathon time by 15 minutes!</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
+                                <span>SK</span>
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Sarah K.</h4>
+                                <p>Marathon runner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+    <!-- <section class="faq">
+        <div class="container">
+            <h2 class="mb-5" data-aos="fade-up">Frequently Asked <span>Questions</span></h2>
+            
+            <div class="accordion" id="faqAccordion" data-aos="fade-up">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            How is the FitCross diet plan different from other diet plans?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            FitCross diet plans are truly personalized, not template-based like many other services. We account for your unique metabolic rate, body composition, activity level, dietary preferences, and specific goals. Our plans are designed for sustainability, focusing on long-term healthy eating patterns rather than quick fixes. Additionally, we include progressive adjustments as your body changes, ensuring continuous progress without plateaus.
+                        </div>
+                    </div> -->
+                <!-- </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Can I still eat my favorite foods on the FitCross diet plan?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Absolutely! We believe in sustainable nutrition, which means including foods you enjoy. Our approach focuses on balance rather than extreme restriction. Your personalized plan will include guidance on how to incorporate your favorite foods while still achieving your fitness goals. We provide strategies for moderation and timing of these foods to minimize their impact on your progress.
+                        </div>
+                    </div>
+                </div> -->
+                
+                <!-- <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            How long will it take to see results with my custom diet plan?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Results vary based on individual factors, but most clients notice initial changes within 2-3 weeks. These early changes typically include improved energy levels, better sleep quality, and enhanced workout performance. Physical transformations generally become noticeable to others around the 4-6 week mark. For significant body composition changes, consistent adherence to your plan for 8-12 weeks typically yields remarkable results. Remember that sustainable results come from consistent implementation rather than rapid changes.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Do I need to track calories and macros every day? -->
+                        <!-- </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            While tracking can be beneficial, especially initially, it's not mandatory for everyone. We provide multiple approaches based on your preferences and lifestyle. For some, we offer precise tracking guidelines; for others, we provide portion-based approaches or meal templates that inherently control macros without explicit tracking. Our goal is to find the sustainability sweet spot—the minimum effective dose of tracking that still delivers your desired results.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Can the FitCross diet plan accommodate my food allergies or intolerances?
+                        </button>
+                    </h2> -->
+                    <!-- <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, we specialize in creating plans that accommodate all types of dietary restrictions, including allergies, intolerances, and medical conditions. During your initial assessment, we gather detailed information about your specific dietary needs and constraints. Our nutrition experts then craft your meal plan to avoid problematic foods while ensuring you still receive all necessary nutrients for optimal health and performance.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            How often is my nutrition plan updated?
+                        </button>
+                    </h2> -->
+                    <!-- <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Your nutrition plan evolves with you. We conduct formal reassessments every 4-6 weeks to evaluate progress and make necessary adjustments. However, our nutrition coaches also monitor your weekly check-ins and can make smaller, immediate modifications if needed. As your body composition changes, your metabolism adapts, and your goals evolve, we continuously refine your nutrition strategy to ensure ongoing progress without plateaus.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="footer-logo">FitCross</div>
+                    <p class="mb-3">Your personalized path to optimal nutrition. Custom diet plans designed for your unique body and goals.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <div class="footer-links"> -->
+                        <!-- <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Contact us</a></li> -->
+                            <!-- <li><a href="#nutrition-approach">Our Approach</a></li> -->
+                            <!-- <li><a href="#macro-calculator">Calculate Macros</a></li> -->
+                            <!-- <li><a href="#meal-plans">Meal Plans</a></li> -->
+                        <!-- </ul>
+                    </div>
+                </div> -->
+                
+                <!-- <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <div class="footer-links"> -->
+                        <!-- <h5>Diet Types</h5>
+                        <ul>
+                            <li><a href="#">Vegetarian</a></li>
+                            <li><a href="#">Non-Vegetarian</a></li>
+                            <li><a href="#">Eggetarian</a></li>
+                            <li><a href="#">Weight Loss</a></li>
+                            <li><a href="#">Muscle Gain</a></li>
+                        </ul>
+                    </div>
+                </div> -->
+                
+                <!-- <div class="col-md-4">
+                    <div class="footer-links">
+                        <h5>Newsletter</h5>
+                        <p class="mb-3">Subscribe to get updates on new nutrition plans and healthy recipes.</p>
+                        <form>
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control" placeholder="Your email" aria-label="Your email">
+                                <button class="btn btn-outline-light" type="submit">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitCross. All rights reserved. Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS (Animate On Scroll)
+            AOS.init({
+                duration: 800,
+                once: false
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Macro calculator form submission
+            const macroForm = document.getElementById('macro-form');
+            const macroResults = document.getElementById('macro-results');
+            
+            if (macroForm) {
+                macroForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Here you would normally calculate the actual values
+                    // For demo purposes, we'll just show the results section with sample values
+                    
+                    // Simple BMR calculation (Mifflin-St Jeor Equation)
+                    const gender = document.getElementById('gender').value;
+                    const age = parseInt(document.getElementById('age').value);
+                    const weight = parseInt(document.getElementById('weight').value);
+                    const height = parseInt(document.getElementById('height').value);
+                    const activity = parseFloat(document.getElementById('activity').value);
+                    const goal = document.getElementById('goal').value;
+                    
+                    // Calculate BMR
+                    let bmr = 0;
+                    if (gender === 'male') {
+                        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+                    } else {
+                        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+                    }
+                    
+                    // Calculate TDEE (Total Daily Energy Expenditure)
+                    let tdee = Math.round(bmr * activity);
+                    
+                    // Adjust based on goal
+                    let calories = tdee;
+                    if (goal === 'lose') {
+                        calories = tdee - 500;
+                    } else if (goal === 'gain') {
+                        calories = tdee + 300;
+                    }
+                    
+                    // Calculate macros
+                    // Protein: 1.8g per kg for muscle gain, 2.2g for weight loss, 1.6g for maintenance
+                    let proteinMultiplier = 1.6;
+                    if (goal === 'gain') proteinMultiplier = 1.8;
+                    if (goal === 'lose') proteinMultiplier = 2.2;
+                    
+                    const protein = Math.round(weight * proteinMultiplier);
+                    const proteinCalories = protein * 4;
+                    
+                    // Fat: 25-35% of calories
+                    const fatPercent = (goal === 'lose') ? 0.30 : 0.25;
+                    const fatCalories = Math.round(calories * fatPercent);
+                    const fat = Math.round(fatCalories / 9);
+                    
+                    // Remaining calories from carbs
+                    const carbCalories = calories - proteinCalories - fatCalories;
+                    const carbs = Math.round(carbCalories / 4);
+                    
+                    // Update the results
+                    document.getElementById('calories-result').textContent = calories;
+                    document.getElementById('protein-result').textContent = protein + 'g';
+                    document.getElementById('carbs-result').textContent = carbs + 'g';
+                    document.getElementById('fat-result').textContent = fat + 'g';
+                    
+                    // Show results
+                    macroResults.style.display = 'block';
+                    
+                    // Scroll to results
+                    setTimeout(() => {
+                        macroResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 200);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
