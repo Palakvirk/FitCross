@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Guide - FitCross</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Inline CSS -->
+    <style>
+        /* Google Fonts Import */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* Global Variables */
+        :root {
+            --primary-color: #FF5722;
+            --secondary-color: #03DAC6;
+            --dark-bg: #121212;
+            --dark-surface: #1E1E1E;
+            --dark-surface-2: #292929;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --accent-purple: #BB86FC;
+            --accent-pink: #FF0266;
+            --success: #00E676;
+            --warning: #FFD600;
+            --error: #CF6679;
+            --transition-fast: 0.3s;
+            --transition-medium: 0.5s;
+            --transition-slow: 0.8s;
+            --border-radius: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-fit {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 2rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .logo-cross {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 2rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        /* Loading Screen */
+        /* .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity var(--transition-medium);
+        } */
+
+        .loading.hidden {
+            opacity: 0;
+        }
+
+        .loading-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .loading-fit {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 3rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .loading-cross {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 3rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(18, 18, 18, 0.98);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            transition: background-color var(--transition-medium);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            bottom: -4px;
+            left: 0;
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-fast);
+            margin-left: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff441f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.3);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 0 5rem;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Nutrition Guide Intro */
+        .nutrition-intro {
+            padding: 5rem 0;
+            text-align: center;
+            background-color: var(--dark-surface);
+        }
+
+        .nutrition-intro-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nutrition-intro h2 {
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .nutrition-intro h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        .nutrition-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            background-color: var(--dark-surface-2);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform var(--transition-medium);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Macronutrients Section */
+        .macronutrients {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        .macro-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .macro-card {
+            background-color: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .macro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-color);
+        }
+
+        .macro-card.protein::before {
+            background: var(--primary-color);
+        }
+
+        .macro-card.carbs::before {
+            background: var(--secondary-color);
+        }
+
+        .macro-card.fats::before {
+            background: var(--accent-purple);
+        }
+
+        .macro-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .macro-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .macro-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .protein .macro-icon {
+            color: var(--primary-color);
+        }
+
+        .carbs .macro-icon {
+            color: var(--secondary-color);
+        }
+
+        .fats .macro-icon {
+            color: var(--accent-purple);
+        }
+
+        .macro-title {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+        }
+
+        .macro-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .macro-content ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .macro-content li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .macro-content li i {
+            color: var(--success);
+            margin-right: 0.8rem;
+        }
+
+        /* Diet Plans Section */
+        .diet-plans {
+            padding: 5rem 0;
+            background-color: var(--dark-surface);
+        }
+
+        .plan-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .plan-tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: color var(--transition-fast);
+        }
+
+        .plan-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform var(--transition-fast);
+        }
+
+        .plan-tab.active {
+            color: var(--primary-color);
+        }
+
+        .plan-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .diet-plan {
+            background-color: var(--dark-surface-2);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .plan-day {
+            margin-bottom: 2rem;
+        }
+
+        .plan-day:last-child {
+            margin-bottom: 0;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .day-title {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .day-calories {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .meal {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .meal:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .meal-time {
+            background-color: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .meal-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .meal-details p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .meal-macros {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+
+        .meal-macro {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .meal-macro.protein {
+            color: var(--primary-color);
+        }
+
+        .meal-macro.carbs {
+            color: var(--secondary-color);
+        }
+
+        .meal-macro.fats {
+            color: var(--accent-purple);
+        }
+
+        /* Nutrition Tips Section */
+        .nutrition-tips {
+            padding: 5rem 0;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-card {
+            background-color: var(--dark-surface);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition-medium);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .tip-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .tip-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        .tip-card:hover .tip-image img {
+            transform: scale(1.05);
+        }
+
+        .tip-content {
+            padding: 2rem;
+        }
+
+        .tip-number {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tip-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tip-text {
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .nutrition-cta {
+            padding: 5rem 0;
+            background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1535914254981-b5012eebbd15?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 992px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nutrition-intro h2 {
+                font-size: 2rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-surface);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                clip-path: circle(0% at top right);
+                transition: clip-path var(--transition-medium);
+            }
+            
+            .nav-links.active {
+                clip-path: circle(150% at top right);
+            }
+            
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                margin: 0.2rem 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+            
+            .plan-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .plan-tab {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .meal {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .meal-time {
+                width: 100px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-logo">
+            <div class="loading-fit">FIT</div>
+            <div class="loading-cross">CROSS</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="FitCross_Frontend.html" class="logo">
+                <span class="logo-fit">FIT</span>
+                <span class="logo-cross">CROSS</span>
+            </a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html">Home</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#features">Features</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#workout-plans">Workouts</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#diet-charts">Diet</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\blog.html">Blog</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\login.html" class="btn btn-secondary">Login</a>
+                <a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 data-aos="fade-up">Nutrition Guide</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Fuel your body properly with our comprehensive nutrition guide designed to complement your fitness journey.</p>
+        </div>
+    </header>
+
+    <!-- Nutrition Intro Section -->
+    <section class="nutrition-intro">
+        <div class="container">
+            <div class="nutrition-intro-content" data-aos="fade-up">
+                <h2>Nutrition Is Key To Fitness Success</h2>
+                <p>Proper nutrition is the foundation of fitness success. While workouts are crucial for building strength and endurance, what you eat determines how effectively your body can perform, recover, and transform. Our nutrition guide provides science-backed information to help you make informed dietary choices based on your fitness goals.</p>
+                <p>Remember, there's no one-size-fits-all approach to nutrition. Your individual needs depend on factors like age, weight, activity level, and specific fitness goals. This guide offers a starting point to help you understand nutritional basics, which you can then tailor to your unique requirements.</p>
+            </div>
+            <div class="nutrition-stats">
+                <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-value">70%</div>
+                    <div class="stat-label">of fitness results come from proper nutrition</div>
+                </div>
+                <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">key macronutrients to monitor for optimal results</div>
+                </div>
+                <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-value">2L+</div>
+                    <div class="stat-label">of water recommended daily for active individuals</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Macronutrients Section -->
+    <section class="macronutrients">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Understanding Macronutrients</h2>
+            <div class="macro-cards">
+                <div class="macro-card protein" data-aos="fade-up" data-aos-delay="100">
+                    <div class="macro-header">
+                        <div class="macro-icon">
+                            <i class="fas fa-drumstick-bite"></i>
+                        </div>
+                        <div>
+                            <h3 class="macro-title">Protein</h3>
+                            <p class="macro-subtitle">4 calories per gram</p>
+                        </div>
+                    </div>
+                    <div class="macro-content">
+                        <p>Protein is essential for muscle repair and growth. It provides the building blocks (amino acids) your body needs to build and maintain muscle tissue.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Aim for 1.6-2.2g per kg of body weight for active individuals</li>
+                            <li><i class="fas fa-check-circle"></i> Consume protein throughout the day, not just after workouts</li>
+                            <li><i class="fas fa-check-circle"></i> Include a variety of protein sources for a complete amino acid profile</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="macro-card carbs" data-aos="fade-up" data-aos-delay="200">
+                    <div class="macro-header">
+                        <div class="macro-icon">
+                            <i class="fas fa-bread-slice"></i>
+                        </div>
+                        <div>
+                            <h3 class="macro-title">Carbohydrates</h3>
+                            <p class="macro-subtitle">4 calories per gram</p>
+                        </div>
+                    </div>
+                    <div class="macro-content">
+                        <p>Carbohydrates are your body's primary and preferred energy source, especially for high-intensity activities and brain function.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Focus on complex carbs like whole grains, fruits, and vegetables</li>
+                            <li><i class="fas fa-check-circle"></i> Time carb intake around workouts for optimal energy and recovery</li>
+                            <li><i class="fas fa-check-circle"></i> Adjust carb intake based on activity level and fitness goals</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="macro-card fats" data-aos="fade-up" data-aos-delay="300">
+                    <div class="macro-header">
+                        <div class="macro-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div>
+                            <h3 class="macro-title">Healthy Fats</h3>
+                            <p class="macro-subtitle">9 calories per gram</p>
+                        </div>
+                    </div>
+                    <div class="macro-content">
+                        <p>Fats are essential for hormone production, brain health, vitamin absorption, and long-lasting energy.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Prioritize unsaturated fats from sources like avocados, nuts, and olive oil</li>
+                            <li><i class="fas fa-check-circle"></i> Include omega-3 fatty acids from fish, flaxseeds, or supplements</li>
+                            <li><i class="fas fa-check-circle"></i> Limit saturated fats and avoid trans fats when possible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Diet Plans Section -->
+    <section class="diet-plans">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Sample Diet Plans</h2>
+            <div class="plan-tabs" data-aos="fade-up">
+                <button class="plan-tab active" data-target="vegetarian">Vegetarian</button>
+                <button class="plan-tab" data-target="non-vegetarian">Non-Vegetarian</button>
+                <button class="plan-tab" data-target="eggetarian">Eggetarian</button>
+            </div>
+            
+            <!-- Vegetarian Diet Plan -->
+            <div class="tab-content active" id="vegetarian" data-aos="fade-up">
+                <div class="diet-plan">
+                    <div class="plan-day">
+                        <div class="day-header">
+                            <h3 class="day-title">Sample Day: Vegetarian Plan</h3>
+                            <span class="day-calories">Total: ~2000 calories</span>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-sun"></i>
+                                <div>Breakfast</div>
+                                <small>7-8 AM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Greek Yogurt Parfait</h4>
+                                <p>Greek yogurt topped with mixed berries, banana slices, granola, and a drizzle of honey. Served with a slice of whole grain toast with almond butter.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 25g</span>
+                                    <span class="meal-macro carbs">Carbs: 45g</span>
+                                    <span class="meal-macro fats">Fats: 12g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-coffee"></i>
+                                <div>Snack</div>
+                                <small>10-11 AM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Protein Smoothie</h4>
+                                <p>Blend with plant-based protein powder, spinach, frozen mango, banana, chia seeds, and almond milk.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 20g</span>
+                                    <span class="meal-macro carbs">Carbs: 30g</span>
+                                    <span class="meal-macro fats">Fats: 8g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-utensils"></i>
+                                <div>Lunch</div>
+                                <small>1-2 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Lentil and Vegetable Power Bowl</h4>
+                                <p>Cooked lentils with quinoa, roasted sweet potatoes, broccoli, bell peppers, avocado, and a lemon tahini dressing.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 22g</span>
+                                    <span class="meal-macro carbs">Carbs: 60g</span>
+                                    <span class="meal-macro fats">Fats: 15g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-apple-alt"></i>
+                                <div>Snack</div>
+                                <small>4-5 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Trail Mix and Fruit</h4>
+                                <p>Mixed nuts, seeds, and dried fruits with a medium apple on the side.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 8g</span>
+                                    <span class="meal-macro carbs">Carbs: 25g</span>
+                                    <span class="meal-macro fats">Fats: 15g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-moon"></i>
+                                <div>Dinner</div>
+                                <small>7-8 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Tofu Stir-Fry with Brown Rice</h4>
+                                <p>Extra-firm tofu marinated in soy sauce and seasonings, stir-fried with mixed vegetables like bok choy, carrots, snap peas, and mushrooms. Served over brown rice.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 25g</span>
+                                    <span class="meal-macro carbs">Carbs: 50g</span>
+                                    <span class="meal-macro fats">Fats: 14g</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Non-Vegetarian Diet Plan -->
+            <div class="tab-content" id="non-vegetarian">
+                <div class="diet-plan">
+                    <div class="plan-day">
+                        <div class="day-header">
+                            <h3 class="day-title">Sample Day: Non-Vegetarian Plan</h3>
+                            <span class="day-calories">Total: ~2200 calories</span>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-sun"></i>
+                                <div>Breakfast</div>
+                                <small>7-8 AM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Protein Oatmeal</h4>
+                                <p>Oatmeal cooked with milk, mixed with whey protein powder, topped with sliced banana, berries, and a tablespoon of almond butter.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 30g</span>
+                                    <span class="meal-macro carbs">Carbs: 50g</span>
+                                    <span class="meal-macro fats">Fats: 10g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-coffee"></i>
+                                <div>Snack</div>
+                                <small>10-11 AM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Greek Yogurt with Nuts</h4>
+                                <p>Plain Greek yogurt with a drizzle of honey, mixed with a handful of almonds and walnuts.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 20g</span>
+                                    <span class="meal-macro carbs">Carbs: 15g</span>
+                                    <span class="meal-macro fats">Fats: 12g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-utensils"></i>
+                                <div>Lunch</div>
+                                <small>1-2 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Grilled Chicken Salad</h4>
+                                <p>Grilled chicken breast over mixed greens with cherry tomatoes, cucumber, bell peppers, avocado, and a light olive oil and vinegar dressing.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 35g</span>
+                                    <span class="meal-macro carbs">Carbs: 20g</span>
+                                    <span class="meal-macro fats">Fats: 18g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-apple-alt"></i>
+                                <div>Snack</div>
+                                <small>4-5 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Protein Shake with Fruit</h4>
+                                <p>Whey protein shake mixed with water or milk, alongside a medium apple or banana.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 25g</span>
+                                    <span class="meal-macro carbs">Carbs: 30g</span>
+                                    <span class="meal-macro fats">Fats: 3g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-moon"></i>
+                                <div>Dinner</div>
+                                <small>7-8 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Baked Salmon with Quinoa and Vegetables</h4>
+                                <p>Baked salmon fillet seasoned with herbs and lemon, served with quinoa and steamed broccoli and carrots.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 35g</span>
+                                    <span class="meal-macro carbs">Carbs: 40g</span>
+                                    <span class="meal-macro fats">Fats: 20g</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Eggetarian Diet Plan -->
+            <div class="tab-content" id="eggetarian">
+                <div class="diet-plan">
+                    <div class="plan-day">
+                        <div class="day-header">
+                            <h3 class="day-title">Sample Day: Eggetarian Plan</h3>
+                            <span class="day-calories">Total: ~2100 calories</span>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-sun"></i>
+                                <div>Breakfast</div>
+                                <small>7-8 AM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Veggie Omelette with Toast</h4>
+                                <p>Three-egg omelette with spinach, tomatoes, bell peppers, and feta cheese. Served with whole grain toast and a side of avocado.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 25g</span>
+                                    <span class="meal-macro carbs">Carbs: 30g</span>
+                                    <span class="meal-macro fats">Fats: 20g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-coffee"></i>
+                                <div>Snack</div>
+                                <small>10-11 AM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Smoothie Bowl</h4>
+                                <p>Blended frozen banana, berries, and milk, topped with granola, chia seeds, and sliced fruits.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 10g</span>
+                                    <span class="meal-macro carbs">Carbs: 40g</span>
+                                    <span class="meal-macro fats">Fats: 8g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-utensils"></i>
+                                <div>Lunch</div>
+                                <small>1-2 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Egg Fried Rice</h4>
+                                <p>Brown rice stir-fried with scrambled eggs, peas, carrots, corn, and soy sauce. Served with a side of mixed green salad.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 20g</span>
+                                    <span class="meal-macro carbs">Carbs: 60g</span>
+                                    <span class="meal-macro fats">Fats: 15g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-apple-alt"></i>
+                                <div>Snack</div>
+                                <small>4-5 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Boiled Eggs and Hummus</h4>
+                                <p>Two hard-boiled eggs with a side of hummus and vegetable sticks (carrots, cucumber, bell peppers).</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 18g</span>
+                                    <span class="meal-macro carbs">Carbs: 15g</span>
+                                    <span class="meal-macro fats">Fats: 14g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-time">
+                                <i class="fas fa-moon"></i>
+                                <div>Dinner</div>
+                                <small>7-8 PM</small>
+                            </div>
+                            <div class="meal-details">
+                                <h4>Egg White Curry with Rice and Vegetables</h4>
+                                <p>Egg white curry cooked with onions, tomatoes, and spices, served with brown rice and a side of sautéed vegetables.</p>
+                                <div class="meal-macros">
+                                    <span class="meal-macro protein">Protein: 25g</span>
+                                    <span class="meal-macro carbs">Carbs: 45g</span>
+                                    <span class="meal-macro fats">Fats: 10g</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Tips Section -->
+    <section class="nutrition-tips">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Practical Nutrition Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="tip-image">
+                        <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Meal Prepping">
+                    </div>
+                    <div class="tip-content">
+                        <div class="tip-number">Tip 01</div>
+                        <h3 class="tip-title">Master Meal Prepping</h3>
+                        <p class="tip-text">Dedicate a few hours each week to prepare meals in advance. This helps control portions, saves time, reduces the temptation of unhealthy takeout, and ensures you have nutritious options ready when you're busy or tired.</p>
+                    </div>
+                </div>
+                <div class="tip-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tip-image">
+                        <img src="https://images.unsplash.com/photo-1564974288343-7cce73c4b71a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hydration">
+                    </div>
+                    <div class="tip-content">
+                        <div class="tip-number">Tip 02</div>
+                        <h3 class="tip-title">Prioritize Hydration</h3>
+                        <p class="tip-text">Drink at least 2-3 liters of water daily. Proper hydration supports metabolism, nutrient transport, digestion, and recovery. Carry a reusable water bottle and drink consistently throughout the day rather than large amounts at once.</p>
+                    </div>
+                </div>
+                <div class="tip-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="tip-image">
+                        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Whole Foods">
+                    </div>
+                    <div class="tip-content">
+                        <div class="tip-number">Tip 03</div>
+                        <h3 class="tip-title">Focus on Whole Foods</h3>
+                        <p class="tip-text">Base your diet around minimally processed whole foods like lean proteins, fruits, vegetables, whole grains, and healthy fats. These foods are nutrient-dense, providing more vitamins, minerals, and fiber than their processed counterparts.</p>
+                    </div>
+                </div>
+                <div class="tip-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="tip-image">
+                        <img src="https://images.unsplash.com/photo-1511688878353-3a2f5be94cd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Protein Timing">
+                    </div>
+                    <div class="tip-content">
+                        <div class="tip-number">Tip 04</div>
+                        <h3 class="tip-title">Distribute Protein Intake</h3>
+                        <p class="tip-text">Spread your protein consumption evenly across meals throughout the day, rather than consuming most of it at dinner. Aim for 20-30g of protein per meal to maximize muscle protein synthesis and support recovery consistently.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="nutrition-cta">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2 class="cta-title">Ready to Transform Your Diet?</h2>
+                <p class="cta-text">Sign up for a FitCross account to access personalized diet plans based on your preferences, fitness level, and goals. Our AI system will create a tailored nutrition program to help you achieve optimal results.</p>
+                <div class="cta-buttons">
+                    <a href="FitCross_Signup.html" class="btn btn-primary">Get Started</a>
+                    <a href="FitCross_Frontend.html#contact" class="btn btn-secondary">Contact a Nutritionist</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <span class="logo-fit">FIT</span>
+                        <span class="logo-cross">CROSS</span>
+                    </div>
+                    <p class="footer-description">
+                        Helping you achieve your fitness goals with personalized workout plans, diet charts, and expert guidance.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links-container">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +91 777777777</li>
+                        <li><i class="fas fa-envelope"></i> info@fitcross.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FitCross. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Inline JavaScript -->
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loading animation
+            setTimeout(function() {
+                const loader = document.querySelector('.loading');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 500);
+                }
+            }, 1500);
+
+            // Mobile menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            // Diet Plan Tabs
+            const planTabs = document.querySelectorAll('.plan-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            planTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    planTabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const targetId = this.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+
+            // Initialize AOS animation library if present
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 100
+                });
+            }
+        });
+    </script>
+</body>
+</html>

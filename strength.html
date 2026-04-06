@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCross - Strength Building Program</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Global Variables */
+        :root {
+            --primary-color: #FF5722;
+            --secondary-color: #03DAC6;
+            --dark-bg: #121212;
+            --dark-surface: #1E1E1E;
+            --dark-surface-2: #292929;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --accent-purple: #BB86FC;
+            --accent-pink: #FF0266;
+            --success: #00E676;
+            --warning: #FFD600;
+            --error: #CF6679;
+            --transition-fast: 0.3s;
+            --transition-medium: 0.5s;
+            --transition-slow: 0.8s;
+            --border-radius: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(18, 18, 18, 0.98);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            transition: background-color var(--transition-medium);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-fit {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .logo-cross {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            bottom: -4px;
+            left: 0;
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-fast);
+            margin-left: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff441f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.3);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Program Header Section */
+        .program-header {
+            padding-top: 8rem;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .program-intro {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .program-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .level-selector {
+            margin-top: 3rem;
+        }
+
+        .level-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .level-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--dark-surface);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .level-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .level-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Program Overview Styles */
+        .program-overview {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--dark-surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .overview-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 150px;
+        }
+
+        .overview-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .overview-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .overview-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Exercise Section Styles */
+        .exercise-section {
+            background-color: var(--dark-surface);
+            border-radius: 0;
+            margin-top: 0;
+            position: relative;
+        }
+
+        .exercise-section:nth-child(odd) {
+            background-color: var(--dark-bg);
+        }
+
+        .exercise-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .exercise-card {
+            background-color: var(--dark-surface-2);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform var(--transition-medium);
+            box-shadow: var(--shadow);
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .exercise-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-purple));
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .exercise-title {
+            margin: 0;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .exercise-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .exercise-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .exercise-content {
+                flex-direction: row;
+            }
+        }
+
+        .exercise-image {
+            flex: 1;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .exercise-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .exercise-info {
+            flex: 2;
+            padding: 1.5rem;
+        }
+
+        .exercise-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .exercise-instructions {
+            margin-bottom: 1.5rem;
+        }
+
+        .exercise-instructions h4,
+        .exercise-tips h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-instructions ol,
+        .exercise-tips ul {
+            padding-left: 1.5rem;
+        }
+
+        .exercise-instructions li,
+        .exercise-tips li {
+            margin-bottom: 0.5rem;
+        }
+
+        .exercise-tips {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        /* Program Builder Styles */
+        .program-builder {
+            background-color: var(--dark-surface);
+        }
+
+        .builder-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--dark-surface-2);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: var(--dark-surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* Custom Program Result Styles */
+        .custom-program {
+            background-color: var(--dark-bg);
+        }
+
+        .program-header {
+            margin-bottom: 2rem;
+        }
+
+        .program-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-item i {
+            color: var(--primary-color);
+        }
+
+        .program-workouts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .workout-card {
+            background-color: var(--dark-surface-2);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .workout-header {
+            background-color: var(--dark-surface);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .workout-title {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        .workout-exercises {
+            padding: 1rem;
+        }
+
+        .workout-exercises ul {
+            list-style: none;
+        }
+
+        .workout-exercises li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .workout-exercises li i {
+            color: var(--success);
+        }
+
+        .program-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height var(--transition-medium);
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+            }
+            
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .level-buttons {
+                flex-direction: column;
+            }
+            
+            .exercise-content {
+                flex-direction: column;
+            }
+            
+            .program-workouts {
+                grid-template-columns: 1fr;
+            }
+            
+            .program-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="logo">
+                <span class="logo-fit">Fit</span>
+                <span class="logo-cross">Cross</span>
+            </a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html">Home</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#workout-plans">Workouts</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#diet-charts">Diet</a></li>
+                <!-- <li><a href="#">AI Trainer</a></li> -->
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\blog.html">blog</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\login.html" class="btn btn-secondary">Login</a>
+                <a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Strength Program Header Section -->
+    <section class="program-header section">
+        <div class="container">
+            <h1 class="section-title" data-aos="fade-up">Strength Building Program</h1>
+            <div class="program-intro" data-aos="fade-up" data-aos-delay="100">
+                <p class="program-description">Build muscle, increase strength, and improve overall fitness with our comprehensive strength training program. We offer exercises tailored to every fitness level from beginner to advanced.</p>
+                
+                <div class="level-selector">
+                    <h3>Select Your Fitness Level:</h3>
+                    <div class="level-buttons">
+                        <button class="level-btn active" data-level="beginner">Beginner</button>
+                        <button class="level-btn" data-level="intermediate">Intermediate</button>
+                        <button class="level-btn" data-level="advanced">Advanced</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beginner Program Section -->
+    <section class="exercise-section section level-content" id="beginner-section">
+        <div class="container">
+            <h2 class="section-title">Beginner Strength Program</h2>
+            <div class="program-overview">
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-dumbbell"></i></span>
+                    <span class="overview-label">Level:</span>
+                    <span class="overview-value">Beginner</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span class="overview-label">Frequency:</span>
+                    <span class="overview-value">3-4 days per week</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-stopwatch"></i></span>
+                    <span class="overview-label">Duration:</span>
+                    <span class="overview-value">45-60 minutes</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-battery-half"></i></span>
+                    <span class="overview-label">Recovery:</span>
+                    <span class="overview-value">24-48 hours</span>
+                </div>
+            </div>
+            
+            <div class="program-description">
+                <p>This beginner program focuses on proper form and building a foundation of strength. Start with lighter weights and focus on mastering the movements.</p>
+            </div>
+            
+            <div class="exercise-cards">
+                <!-- Push-ups -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Push-up</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Chest</span>
+                            <span class="badge badge-primary">Shoulders</span>
+                            <span class="badge badge-primary">Arms</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://cdn.centr.com/content/31000/30074/images/landscape32medium3x-unleashed-lz-aj-dc-tricep-push-up.jpg" alt="Push-up exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">2-3</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">8-12</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">60s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Start in a plank position with hands shoulder-width apart.</li>
+                                    <li>Keep your body in a straight line from head to heels.</li>
+                                    <li>Lower your body until your chest nearly touches the floor.</li>
+                                    <li>Push back up to the starting position.</li>
+                                    <li>Repeat for the recommended number of repetitions.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>For an easier variation, perform push-ups with knees on the ground.</li>
+                                    <li>Keep your core engaged throughout the movement.</li>
+                                    <li>Don't let your hips sag or pike up.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bodyweight Squats -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Bodyweight Squat</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Legs</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1607962837359-5e7e89f86776?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Bodyweight Squat exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">2-3</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">12-15</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">60s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Stand with feet shoulder-width apart.</li>
+                                    <li>Keep your chest up and core engaged.</li>
+                                    <li>Bend your knees and push your hips back as if sitting in a chair.</li>
+                                    <li>Lower until thighs are parallel to the floor (or as low as comfortable).</li>
+                                    <li>Push through your heels to return to standing position.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Keep your weight in your heels.</li>
+                                    <li>Ensure your knees track in line with your toes.</li>
+                                    <li>Maintain a neutral spine throughout the movement.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dumbbell Row -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Dumbbell Row</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Back</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1603287681836-b174ce5074c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Dumbbell Row exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">2-3</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">10-12</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">60s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Place one knee and hand on a bench with back flat and parallel to floor.</li>
+                                    <li>Hold a dumbbell in your free hand with arm extended.</li>
+                                    <li>Pull the dumbbell up to your rib cage, keeping your elbow close to your body.</li>
+                                    <li>Slowly lower the dumbbell back to the starting position.</li>
+                                    <li>Complete all reps on one side before switching.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Avoid rotating your torso during the movement.</li>
+                                    <li>Focus on squeezing your shoulder blade at the top of the movement.</li>
+                                    <li>Use a weight that allows you to maintain proper form.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intermediate Program Section -->
+    <section class="exercise-section section level-content" id="intermediate-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Intermediate Strength Program</h2>
+            <div class="program-overview">
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-dumbbell"></i></span>
+                    <span class="overview-label">Level:</span>
+                    <span class="overview-value">Intermediate</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span class="overview-label">Frequency:</span>
+                    <span class="overview-value">4-5 days per week</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-stopwatch"></i></span>
+                    <span class="overview-label">Duration:</span>
+                    <span class="overview-value">60-75 minutes</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-battery-half"></i></span>
+                    <span class="overview-label">Recovery:</span>
+                    <span class="overview-value">48 hours</span>
+                </div>
+            </div>
+            
+            <div class="program-description">
+                <p>This intermediate program builds upon the fundamentals and introduces more compound movements and increased volume. Focus on progressive overload by gradually increasing weight or repetitions.</p>
+            </div>
+            
+            <div class="exercise-cards">
+                <!-- Barbell Bench Press -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Barbell Bench Press</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Chest</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Barbell Bench Press exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">3-4</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">8-10</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">90s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Lie on a flat bench with feet firmly on the ground.</li>
+                                    <li>Grip the barbell slightly wider than shoulder-width apart.</li>
+                                    <li>Lower the bar to the middle of your chest while keeping elbows at a 45-degree angle.</li>
+                                    <li>Press the bar back up to arms' length above the chest.</li>
+                                    <li>Repeat for the recommended repetitions.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Keep your wrists straight and elbows tucked at about 45 degrees.</li>
+                                    <li>Maintain contact with the bench with your head, upper back, and glutes.</li>
+                                    <li>Use a spotter when lifting heavier weights.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Barbell Back Squat -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Barbell Back Squat</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Legs</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1534368420430-1a0f5c5b91bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Barbell Back Squat exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">3-4</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">6-10</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">120s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Place a barbell across your upper back, resting on your trapezius muscles.</li>
+                                    <li>Stand with feet shoulder-width apart, toes slightly turned out.</li>
+                                    <li>Bend at the knees and hips to lower into a squat position.</li>
+                                    <li>Lower until thighs are parallel to the floor or slightly below.</li>
+                                    <li>Push through your heels to return to standing position.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Keep your chest up and back straight throughout the movement.</li>
+                                    <li>Drive through your mid-foot and heels, not your toes.</li>
+                                    <li>Don't let your knees cave inward during the ascent.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bent-Over Barbell Row -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Bent-Over Barbell Row</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Back</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Bent-Over Barbell Row exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">3-4</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">8-10</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">90s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Stand with feet shoulder-width apart, holding a barbell with hands just outside your legs.</li>
+                                    <li>Hinge at the hips until your torso is almost parallel to the floor.</li>
+                                    <li>Keep your back straight and core engaged.</li>
+                                    <li>Pull the barbell up to your lower ribcage, keeping elbows close to body.</li>
+                                    <li>Lower the barbell with control and repeat.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Maintain a neutral spine position throughout the exercise.</li>
+                                    <li>Focus on pulling with your back muscles, not your arms.</li>
+                                    <li>Avoid using momentum to lift the weight.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Program Section -->
+    <section class="exercise-section section level-content" id="advanced-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Advanced Strength Program</h2>
+            <div class="program-overview">
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-dumbbell"></i></span>
+                    <span class="overview-label">Level:</span>
+                    <span class="overview-value">Advanced</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span class="overview-label">Frequency:</span>
+                    <span class="overview-value">5-6 days per week</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-stopwatch"></i></span>
+                    <span class="overview-label">Duration:</span>
+                    <span class="overview-value">75-90 minutes</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-battery-half"></i></span>
+                    <span class="overview-label">Recovery:</span>
+                    <span class="overview-value">48-72 hours</span>
+                </div>
+            </div>
+            
+            <div class="program-description">
+                <p>This advanced program incorporates complex compound movements, periodization, and higher intensity techniques. Focus on proper form while pushing your limits for continued growth.</p>
+            </div>
+            
+            <div class="exercise-cards">
+                <!-- Barbell Deadlift -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Barbell Deadlift</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Back</span>
+                            <span class="badge badge-primary">Legs</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Barbell Deadlift exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">4-5</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">3-6</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">180s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Stand with feet hip-width apart, barbell over mid-foot.</li>
+                                    <li>Bend at the hips and knees, grasp the bar with hands just outside your legs.</li>
+                                    <li>Keep your back straight, chest up, and core engaged.</li>
+                                    <li>Lift the bar by extending your hips and knees, keeping the bar close to your body.</li>
+                                    <li>Stand up straight with shoulders back at the top of the movement.</li>
+                                    <li>Return the weight to the floor by hinging at the hips and bending the knees.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Drive through your heels and keep the bar close to your body throughout the lift.</li>
+                                    <li>Maintain a neutral spine position—don't round your back.</li>
+                                    <li>Engage your lats to help keep the bar close to your body.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Power Clean -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Power Clean</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Full Body</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1581122584612-713f89daa8eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Power Clean exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">3-5</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">3-5</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">120s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Start with the barbell on the floor, feet hip-width apart.</li>
+                                    <li>Grip the bar slightly wider than shoulder-width.</li>
+                                    <li>Begin with a deadlift motion, then explosively extend hips, knees, and ankles.</li>
+                                    <li>Shrug your shoulders and pull the bar up as you drop under it.</li>
+                                    <li>Catch the bar at the front of your shoulders in a quarter squat position.</li>
+                                    <li>Stand up completely to finish the lift.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Focus on explosive power from the hips rather than pulling with the arms.</li>
+                                    <li>Keep the bar close to your body throughout the movement.</li>
+                                    <li>Start with light weight to master the technique before progressing.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weighted Pull-Up -->
+                <div class="exercise-card" data-aos="fade-up">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">Weighted Pull-Up</h3>
+                        <div class="exercise-badges">
+                            <span class="badge badge-primary">Back</span>
+                        </div>
+                    </div>
+                    <div class="exercise-content">
+                        <div class="exercise-image">
+                            <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Weighted Pull-Up exercise">
+                        </div>
+                        <div class="exercise-info">
+                            <div class="exercise-stats">
+                                <div class="stat">
+                                    <span class="stat-value">3-4</span>
+                                    <span class="stat-label">Sets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">6-8</span>
+                                    <span class="stat-label">Reps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">120s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                            </div>
+                            <div class="exercise-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Attach a weight belt with additional weight around your waist.</li>
+                                    <li>Grip a pull-up bar with hands slightly wider than shoulder-width apart.</li>
+                                    <li>Hang with arms fully extended and feet off the ground.</li>
+                                    <li>Pull your body up until your chin clears the bar.</li>
+                                    <li>Lower your body with control until arms are fully extended.</li>
+                                    <li>Repeat for the recommended repetitions.</li>
+                                </ol>
+                            </div>
+                            <div class="exercise-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Maintain proper form despite the added weight.</li>
+                                    <li>Engage your core to prevent swinging.</li>
+                                    <li>Start with smaller weight increments and gradually increase.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Builder Section -->
+    <section class="program-builder section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Build Your Custom Program</h2>
+            <div class="builder-form" data-aos="fade-up" data-aos-delay="100">
+                <form id="program-builder-form">
+                    <div class="form-group">
+                        <label for="fitness-level">Fitness Level</label>
+                        <select id="fitness-level" class="form-control">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="days-per-week">Days Per Week</label>
+                        <select id="days-per-week" class="form-control">
+                            <option value="3">3 days</option>
+                            <option value="4">4 days</option>
+                            <option value="5">5 days</option>
+                            <option value="6">6 days</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="training-goal">Primary Goal</label>
+                        <select id="training-goal" class="form-control">
+                            <option value="general">General Strength</option>
+                            <option value="powerlifting">Maximum Strength</option>
+                            <option value="hypertrophy">Muscle Size</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create My Program</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Program Result Section (Hidden by default) -->
+    <section class="custom-program section" id="custom-program-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Your Custom Strength Program</h2>
+            <div id="program-result">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <span class="logo-fit">Fit</span>
+                        <span class="logo-cross">Cross</span>
+                    </div>
+                    <p class="footer-description">Your ultimate fitness companion for personalized workout plans, diet charts, and AI-powered training guidance.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                
+            <div class="footer-bottom">
+                <p>&copy; 2026 FitCross. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS Animation
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Level tab switching
+            const levelBtns = document.querySelectorAll('.level-btn');
+            const levelSections = document.querySelectorAll('.level-content');
+            
+            levelBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const level = this.dataset.level;
+                    
+                    // Update active button
+                    levelBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show correct section
+                    levelSections.forEach(section => {
+                        if (section.id === level + '-section') {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Program builder form handling
+            const programForm = document.getElementById('program-builder-form');
+            const customProgramSection = document.getElementById('custom-program-section');
+            const programResult = document.getElementById('program-result');
+            
+            if (programForm) {
+                programForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const level = document.getElementById('fitness-level').value;
+                    const days = document.getElementById('days-per-week').value;
+                    const goal = document.getElementById('training-goal').value;
+                    
+                    // In a real application, this would make an AJAX request to the backend
+                    // For now, we'll just simulate a response with sample data
+                    
+                    const program = {
+                        name: `Custom ${level.charAt(0).toUpperCase() + level.slice(1)} Strength Program`,
+                        level: level,
+                        days: days,
+                        goal: goal,
+                        workouts: generateSampleWorkouts(level, days, goal)
+                    };
+                    
+                    displayCustomProgram(program);
+                });
+            }
+            
+            function generateSampleWorkouts(level, days, goal) {
+                // This is a simplified function that would typically come from the backend
+                const workouts = [];
+                
+                if (days == 3) {
+                    workouts.push({
+                        name: "Full Body A",
+                        exercises: ["Push-up", "Bodyweight Squat", "Dumbbell Row", "Plank"]
+                    });
+                    workouts.push({
+                        name: "Full Body B",
+                        exercises: ["Dumbbell Shoulder Press", "Glute Bridge", "Pull-up", "Russian Twist"]
+                    });
+                    workouts.push({
+                        name: "Full Body C",
+                        exercises: ["Dumbbell Bench Press", "Lunges", "Lat Pulldown", "Mountain Climbers"]
+                    });
+                } else if (days == 4) {
+                    workouts.push({
+                        name: "Upper Body A",
+                        exercises: ["Bench Press", "Bent Over Row", "Shoulder Press", "Tricep Pushdown"]
+                    });
+                    workouts.push({
+                        name: "Lower Body A",
+                        exercises: ["Back Squat", "Romanian Deadlift", "Leg Extension", "Plank"]
+                    });
+                    workouts.push({
+                        name: "Upper Body B",
+                        exercises: ["Incline Press", "Pull-up", "Lateral Raise", "Bicep Curl"]
+                    });
+                    workouts.push({
+                        name: "Lower Body B",
+                        exercises: ["Deadlift", "Walking Lunge", "Leg Curl", "Hanging Leg Raise"]
+                    });
+                } else {
+                    // 5-6 days, add more workouts for body part splits
+                    workouts.push({
+                        name: "Chest & Triceps",
+                        exercises: ["Bench Press", "Incline Press", "Chest Fly", "Tricep Pushdown"]
+                    });
+                    workouts.push({
+                        name: "Back & Biceps",
+                        exercises: ["Deadlift", "Bent Over Row", "Pull-up", "Bicep Curl"]
+                    });
+                    workouts.push({
+                        name: "Legs",
+                        exercises: ["Back Squat", "Romanian Deadlift", "Leg Press", "Calf Raise"]
+                    });
+                    workouts.push({
+                        name: "Shoulders & Arms",
+                        exercises: ["Shoulder Press", "Lateral Raise", "Tricep Extension", "Hammer Curl"]
+                    });
+                    workouts.push({
+                        name: "Full Body",
+                        exercises: ["Front Squat", "Pull-up", "Push-up", "Plank"]
+                    });
+                    
+                    if (days == 6) {
+                        workouts.push({
+                            name: "Legs Focus",
+                            exercises: ["Front Squat", "Bulgarian Split Squat", "Leg Extension", "Leg Curl"]
+                        });
+                    }
+                }
+                
+                return workouts;
+            }
+            
+            function displayCustomProgram(program) {
+                let html = `
+                    <div class="program-header">
+                        <h3>${program.name}</h3>
+                        <div class="program-meta">
+                            <span class="meta-item"><i class="fas fa-dumbbell"></i> ${program.level}</span>
+                            <span class="meta-item"><i class="fas fa-calendar-alt"></i> ${program.days} days/week</span>
+                            <span class="meta-item"><i class="fas fa-bullseye"></i> ${formatGoal(program.goal)}</span>
+                        </div>
+                    </div>
+                    <div class="program-workouts">
+                `;
+                
+                program.workouts.forEach((workout, index) => {
+                    html += `
+                        <div class="workout-card">
+                            <div class="workout-header">
+                                <h4 class="workout-title">Day ${index + 1}: ${workout.name}</h4>
+                            </div>
+                            <div class="workout-exercises">
+                                <ul>
+                    `;
+                    
+                    workout.exercises.forEach(exercise => {
+                        html += `<li><i class="fas fa-check-circle"></i> ${exercise}</li>`;
+                    });
+                    
+                    html += `
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    </div>
+                    <div class="program-actions">
+                        <button class="btn btn-primary">Save Program</button>
+                        <button class="btn btn-secondary">Print Workout</button>
+                    </div>
+                `;
+                
+                programResult.innerHTML = html;
+                customProgramSection.style.display = 'block';
+                
+                // Scroll to the result section
+                customProgramSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            function formatGoal(goal) {
+                switch(goal) {
+                    case 'general': return 'General Strength';
+                    case 'powerlifting': return 'Maximum Strength';
+                    case 'hypertrophy': return 'Muscle Size';
+                    default: return goal;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

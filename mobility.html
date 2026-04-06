@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCross - Flexibility & Mobility Program</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Global Variables */
+        :root {
+            --primary-color: #FF5722;
+            --secondary-color: #03DAC6;
+            --dark-bg: #121212;
+            --dark-surface: #1E1E1E;
+            --dark-surface-2: #292929;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --accent-purple: #BB86FC;
+            --accent-teal: #03DAC6;
+            --success: #00E676;
+            --warning: #FFD600;
+            --error: #CF6679;
+            --transition-fast: 0.3s;
+            --transition-medium: 0.5s;
+            --transition-slow: 0.8s;
+            --border-radius: 8px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(18, 18, 18, 0.98);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            transition: background-color var(--transition-medium);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-fit {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .logo-cross {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            bottom: -4px;
+            left: 0;
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-fast);
+            margin-left: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff441f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.3);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Program Header Section */
+        .program-header {
+            padding-top: 8rem;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .program-intro {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .program-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .level-selector {
+            margin-top: 3rem;
+        }
+
+        .level-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .level-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--dark-surface);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .level-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .level-btn.active {
+            background-color: var(--accent-teal);
+            color: white;
+            border-color: var(--accent-teal);
+        }
+
+        /* Program Overview Styles */
+        .program-overview {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--dark-surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .overview-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 150px;
+        }
+
+        .overview-icon {
+            font-size: 2rem;
+            color: var(--accent-teal);
+            margin-bottom: 0.8rem;
+        }
+
+        .overview-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .overview-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Mobility Section Styles */
+        .mobility-section {
+            background-color: var(--dark-surface);
+            border-radius: 0;
+            margin-top: 0;
+            position: relative;
+        }
+
+        .mobility-section:nth-child(odd) {
+            background-color: var(--dark-bg);
+        }
+
+        .routine-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .routine-card {
+            background-color: var(--dark-surface-2);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform var(--transition-medium);
+            box-shadow: var(--shadow);
+        }
+
+        .routine-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .routine-header {
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-purple));
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .routine-title {
+            margin: 0;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+        }
+
+        .routine-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .routine-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .routine-content {
+                flex-direction: row;
+            }
+        }
+
+        .routine-image {
+            flex: 1;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .routine-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .routine-info {
+            flex: 2;
+            padding: 1.5rem;
+        }
+
+        .routine-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .routine-instructions {
+            margin-bottom: 1.5rem;
+        }
+
+        .routine-instructions h4,
+        .routine-tips h4 {
+            color: var(--accent-teal);
+            margin-bottom: 0.8rem;
+        }
+
+        .routine-instructions ol,
+        .routine-tips ul {
+            padding-left: 1.5rem;
+        }
+
+        .routine-instructions li,
+        .routine-tips li {
+            margin-bottom: 0.5rem;
+        }
+
+        .routine-tips {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .poses {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(3, 218, 198, 0.1);
+            border-radius: var(--border-radius);
+        }
+
+        .pose {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pose:last-child {
+            border-bottom: none;
+        }
+
+        .pose-name {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pose-name i {
+            color: var(--accent-teal);
+        }
+
+        .pose-detail {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Timer Styles */
+        .timer-container {
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .timer {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-teal) 0%, var(--dark-surface) 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .timer::before {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background-color: var(--dark-surface-2);
+        }
+
+        .timer-display {
+            position: relative;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            z-index: 1;
+        }
+
+        .timer-controls {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .timer-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast);
+        }
+
+        .timer-btn-start {
+            background-color: var(--success);
+            color: var(--dark-bg);
+        }
+
+        .timer-btn-reset {
+            background-color: var(--warning);
+            color: var(--dark-bg);
+        }
+
+        .timer-btn-start:hover, .timer-btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            background-color: var(--dark-surface);
+            position: relative;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background-color: var(--dark-surface-2);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition-medium);
+            border-top: 4px solid var(--accent-teal);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-description {
+            color: var(--text-secondary);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background-color: var(--accent-teal);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-teal);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height var(--transition-medium);
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+            }
+            
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .level-buttons {
+                flex-direction: column;
+            }
+            
+            .routine-content {
+                flex-direction: column;
+            }
+            
+            .routine-stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="logo">
+                <span class="logo-fit">Fit</span>
+                <span class="logo-cross">Cross</span>
+            </a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html">Home</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#workout-plans">Workouts</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#diet-charts">Diet</a></li>
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html">AI Trainer</a></li>
+                <!-- <li><a href="#">About</a></li> -->
+                <li><a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\fitcross(i).html#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\login.html" class="btn btn-secondary">Login</a>
+                <a href="C:\Users\DELL\OneDrive\Desktop\fitCross\FitnessCrossover\signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flexibility & Mobility Program Header Section -->
+    <section class="program-header section">
+        <div class="container">
+            <h1 class="section-title" data-aos="fade-up">Flexibility & Mobility Program</h1>
+            <div class="program-intro" data-aos="fade-up" data-aos-delay="100">
+                <p class="program-description">Improve your range of motion, reduce pain and stiffness, enhance athletic performance, and prevent injuries with our comprehensive flexibility and mobility program. Suitable for all fitness levels from beginner to advanced.</p>
+                
+                <div class="level-selector">
+                    <h3>Select Your Flexibility Level:</h3>
+                    <div class="level-buttons">
+                        <button class="level-btn active" data-level="beginner">Beginner</button>
+                        <button class="level-btn" data-level="intermediate">Intermediate</button>
+                        <button class="level-btn" data-level="advanced">Advanced</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beginner Mobility Section -->
+    <section class="mobility-section section level-content" id="beginner-section">
+        <div class="container">
+            <h2 class="section-title">Beginner Flexibility & Mobility</h2>
+            <div class="program-overview">
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-child"></i></span>
+                    <span class="overview-label">Level:</span>
+                    <span class="overview-value">Beginner</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span class="overview-label">Frequency:</span>
+                    <span class="overview-value">3-4 days per week</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-stopwatch"></i></span>
+                    <span class="overview-label">Duration:</span>
+                    <span class="overview-value">15-20 minutes</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-balance-scale"></i></span>
+                    <span class="overview-label">Intensity:</span>
+                    <span class="overview-value">Gentle</span>
+                </div>
+            </div>
+            
+            <div class="program-description">
+                <p>This beginner program focuses on gentle stretches and basic mobility drills to introduce your body to a greater range of motion. Perfect for those who are new to flexibility training or have significant movement limitations.</p>
+            </div>
+            
+            <div class="routine-cards">
+                <!-- Morning Mobility Routine -->
+                <div class="routine-card" data-aos="fade-up">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Morning Mobility Routine</h3>
+                        <div class="routine-badges">
+                            <span class="badge badge-primary">Full Body</span>
+                            <span class="badge badge-primary">No Equipment</span>
+                        </div>
+                    </div>
+                    <div class="routine-content">
+                        <div class="routine-image">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Morning Mobility Routine">
+                        </div>
+                        <div class="routine-info">
+                            <div class="routine-stats">
+                                <div class="stat">
+                                    <span class="stat-value">30s</span>
+                                    <span class="stat-label">Hold Time</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">10s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">2</span>
+                                    <span class="stat-label">Rounds</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">15min</span>
+                                    <span class="stat-label">Total Time</span>
+                                </div>
+                            </div>
+                            <div class="routine-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Perform each stretch or mobility exercise for 30 seconds.</li>
+                                    <li>Rest for 10 seconds between exercises.</li>
+                                    <li>Complete all exercises to finish one round.</li>
+                                    <li>Rest for 1 minute between rounds.</li>
+                                    <li>Complete 2 rounds total.</li>
+                                </ol>
+                            </div>
+                            <div class="poses">
+                                <h4>Routine Exercises:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Neck Tilts & Rotations</span>
+                                    <span class="pose-detail">30 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Shoulder Rolls</span>
+                                    <span class="pose-detail">30 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Standing Side Bend</span>
+                                    <span class="pose-detail">30 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Wrist Circles</span>
+                                    <span class="pose-detail">30 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Hip Circles</span>
+                                    <span class="pose-detail">30 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Knee Hugs</span>
+                                    <span class="pose-detail">30 seconds each leg</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Ankle Rotations</span>
+                                    <span class="pose-detail">30 seconds each foot</span>
+                                </div>
+                            </div>
+                            <div class="routine-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Focus on slow, controlled movements rather than bouncing.</li>
+                                    <li>Breathe deeply throughout each stretch.</li>
+                                    <li>Only stretch to the point of mild tension, not pain.</li>
+                                    <li>This routine is perfect for starting your day with increased mobility.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Beginner Yoga Flow -->
+                <div class="routine-card" data-aos="fade-up">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Beginner Yoga Flow</h3>
+                        <div class="routine-badges">
+                            <span class="badge badge-primary">Full Body</span>
+                            <span class="badge badge-primary">Yoga Mat</span>
+                        </div>
+                    </div>
+                    <div class="routine-content">
+                        <div class="routine-image">
+                            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Beginner Yoga Flow">
+                        </div>
+                        <div class="routine-info">
+                            <div class="routine-stats">
+                                <div class="stat">
+                                    <span class="stat-value">45s</span>
+                                    <span class="stat-label">Hold Time</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">15s</span>
+                                    <span class="stat-label">Transition</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">1</span>
+                                    <span class="stat-label">Flow</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">20min</span>
+                                    <span class="stat-label">Total Time</span>
+                                </div>
+                            </div>
+                            <div class="routine-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Follow the sequence of poses in order.</li>
+                                    <li>Hold each pose for approximately 45 seconds.</li>
+                                    <li>Take about 15 seconds to transition between poses.</li>
+                                    <li>Focus on your breathing throughout the flow.</li>
+                                    <li>Complete the entire sequence once.</li>
+                                </ol>
+                            </div>
+                            <div class="poses">
+                                <h4>Yoga Sequence:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Mountain Pose (Tadasana)</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Forward Fold (Uttanasana)</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Half Forward Fold</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Plank Pose</span>
+                                    <span class="pose-detail">30 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Child's Pose (Balasana)</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Cat-Cow Stretch</span>
+                                    <span class="pose-detail">1 minute</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Downward Facing Dog</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Warrior I (each side)</span>
+                                    <span class="pose-detail">45 seconds per side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Seated Forward Fold</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Corpse Pose (Savasana)</span>
+                                    <span class="pose-detail">3 minutes</span>
+                                </div>
+                            </div>
+                            <div class="routine-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Use props like blocks or straps if needed for support.</li>
+                                    <li>Focus on your breath - inhale during expansive movements, exhale during contractions.</li>
+                                    <li>Modify poses as needed to suit your current flexibility level.</li>
+                                    <li>Listen to your body and never push into pain.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intermediate Mobility Section -->
+    <section class="mobility-section section level-content" id="intermediate-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Intermediate Flexibility & Mobility</h2>
+            <div class="program-overview">
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-child"></i></span>
+                    <span class="overview-label">Level:</span>
+                    <span class="overview-value">Intermediate</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span class="overview-label">Frequency:</span>
+                    <span class="overview-value">4-5 days per week</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-stopwatch"></i></span>
+                    <span class="overview-label">Duration:</span>
+                    <span class="overview-value">20-30 minutes</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-balance-scale"></i></span>
+                    <span class="overview-label">Intensity:</span>
+                    <span class="overview-value">Moderate</span>
+                </div>
+            </div>
+            
+            <div class="program-description">
+                <p>This intermediate program incorporates dynamic stretching, longer hold times, and more challenging poses to further improve range of motion and joint mobility. Perfect for those who have established basic flexibility and are ready to progress.</p>
+            </div>
+            
+            <div class="routine-cards">
+                <!-- Full Body Flow -->
+                <div class="routine-card" data-aos="fade-up">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Full Body Flow</h3>
+                        <div class="routine-badges">
+                            <span class="badge badge-primary">Full Body</span>
+                            <span class="badge badge-primary">Yoga Mat</span>
+                        </div>
+                    </div>
+                    <div class="routine-content">
+                        <div class="routine-image">
+                            <img src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Full Body Flow">
+                        </div>
+                        <div class="routine-info">
+                            <div class="routine-stats">
+                                <div class="stat">
+                                    <span class="stat-value">60s</span>
+                                    <span class="stat-label">Hold Time</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">10s</span>
+                                    <span class="stat-label">Transition</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">2</span>
+                                    <span class="stat-label">Rounds</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">25min</span>
+                                    <span class="stat-label">Total Time</span>
+                                </div>
+                            </div>
+                            <div class="routine-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Begin with 3-5 minutes of light cardio to warm up the body.</li>
+                                    <li>Hold each stretch or pose for 60 seconds.</li>
+                                    <li>Flow smoothly between positions with minimal rest.</li>
+                                    <li>Complete the entire sequence twice.</li>
+                                    <li>Focus on deepening each stretch during the second round.</li>
+                                </ol>
+                            </div>
+                            <div class="poses">
+                                <h4>Flow Sequence:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Dynamic Hamstring Swings</span>
+                                    <span class="pose-detail">30 seconds each leg</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Walking Lunges with Rotation</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Deep Squat Hold</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Pigeon Pose</span>
+                                    <span class="pose-detail">60 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Thread the Needle</span>
+                                    <span class="pose-detail">60 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Lizard Pose</span>
+                                    <span class="pose-detail">60 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Cobra to Downward Dog Flow</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> World's Greatest Stretch</span>
+                                    <span class="pose-detail">60 seconds each side</span>
+                                </div>
+                            </div>
+                            <div class="routine-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>Use your breath to help deepen each stretch - exhale as you sink deeper.</li>
+                                    <li>Keep movements smooth and controlled, avoiding sudden jerking motions.</li>
+                                    <li>This routine is excellent for post-workout recovery or as a standalone mobility session.</li>
+                                    <li>For maximum benefit, perform when your muscles are warm.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hip & Shoulder Mobility -->
+                <div class="routine-card" data-aos="fade-up">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Hip & Shoulder Mobility</h3>
+                        <div class="routine-badges">
+                            <span class="badge badge-primary">Targeted</span>
+                            <span class="badge badge-primary">Foam Roller</span>
+                        </div>
+                    </div>
+                    <div class="routine-content">
+                        <div class="routine-image">
+                            <img src="https://images.unsplash.com/photo-1570691079236-4bca6c45d440?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hip & Shoulder Mobility">
+                        </div>
+                        <div class="routine-info">
+                            <div class="routine-stats">
+                                <div class="stat">
+                                    <span class="stat-value">45-60s</span>
+                                    <span class="stat-label">Per Exercise</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">10</span>
+                                    <span class="stat-label">Exercises</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">2+2</span>
+                                    <span class="stat-label">Hip+Shoulder</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">30min</span>
+                                    <span class="stat-label">Total Time</span>
+                                </div>
+                            </div>
+                            <div class="routine-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Start with 5 minutes of foam rolling for the target areas.</li>
+                                    <li>Perform the hip mobility circuit first, then the shoulder mobility circuit.</li>
+                                    <li>Hold each position for 45-60 seconds.</li>
+                                    <li>Use controlled, deliberate movements throughout.</li>
+                                    <li>Focus on proper breathing - inhale to prepare, exhale to deepen.</li>
+                                </ol>
+                            </div>
+                            <div class="poses">
+                                <h4>Hip Mobility Circuit:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> 90/90 Hip Stretch</span>
+                                    <span class="pose-detail">60 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Frog Pose</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Fire Hydrants</span>
+                                    <span class="pose-detail">45 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Hip Circles (Quadruped)</span>
+                                    <span class="pose-detail">45 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Deep Squat to Standing</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                                <h4>Shoulder Mobility Circuit:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Wall Slides</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Thread the Needle</span>
+                                    <span class="pose-detail">45 seconds each side</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Scapular Push-Ups</span>
+                                    <span class="pose-detail">45 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Doorway Chest Stretch</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Arm Circles (Progressive)</span>
+                                    <span class="pose-detail">60 seconds</span>
+                                </div>
+                            </div>
+                            <div class="routine-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>This routine is excellent for desk workers or anyone with hip and shoulder tightness.</li>
+                                    <li>Use a foam roller before stretching to release tension in muscle tissue.</li>
+                                    <li>For hip mobility, focus on controlled movement through your full range of motion.</li>
+                                    <li>For shoulder mobility, keep your core engaged to avoid compensating with your lower back.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Mobility Section -->
+    <section class="mobility-section section level-content" id="advanced-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Advanced Flexibility & Mobility</h2>
+            <div class="program-overview">
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-child"></i></span>
+                    <span class="overview-label">Level:</span>
+                    <span class="overview-value">Advanced</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span class="overview-label">Frequency:</span>
+                    <span class="overview-value">5-6 days per week</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-stopwatch"></i></span>
+                    <span class="overview-label">Duration:</span>
+                    <span class="overview-value">30-45 minutes</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-icon"><i class="fas fa-balance-scale"></i></span>
+                    <span class="overview-label">Intensity:</span>
+                    <span class="overview-value">Challenging</span>
+                </div>
+            </div>
+            
+            <div class="program-description">
+                <p>This advanced program incorporates complex movement patterns, longer holds, active flexibility training, and deep tissue work. Designed for those who already have good mobility and want to achieve exceptional flexibility and movement quality.</p>
+            </div>
+            
+            <div class="routine-cards">
+                <!-- Advanced Flow -->
+                <div class="routine-card" data-aos="fade-up">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Advanced Flow & Active Flexibility</h3>
+                        <div class="routine-badges">
+                            <span class="badge badge-primary">Full Body</span>
+                            <span class="badge badge-primary">Yoga Mat</span>
+                        </div>
+                    </div>
+                    <div class="routine-content">
+                        <div class="routine-image">
+                            <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Advanced Flow">
+                        </div>
+                        <div class="routine-info">
+                            <div class="routine-stats">
+                                <div class="stat">
+                                    <span class="stat-value">90s</span>
+                                    <span class="stat-label">Hold Time</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">30s</span>
+                                    <span class="stat-label">Active Work</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">3</span>
+                                    <span class="stat-label">Circuits</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">45min</span>
+                                    <span class="stat-label">Total Time</span>
+                                </div>
+                            </div>
+                            <div class="routine-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Start with a thorough 10-minute dynamic warm-up.</li>
+                                    <li>For each position, hold the passive stretch for 90 seconds.</li>
+                                    <li>Follow immediately with 30 seconds of active work in the position.</li>
+                                    <li>Complete the entire sequence, then rest for 2 minutes.</li>
+                                    <li>Repeat for a total of 3 complete circuits.</li>
+                                </ol>
+                            </div>
+                            <div class="poses">
+                                <h4>Advanced Flow Sequence:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Jefferson Curl</span>
+                                    <span class="pose-detail">Passive + Active</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Pancake Stretch with Pulses</span>
+                                    <span class="pose-detail">Passive + Active</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Horse Stance to Side Split Transition</span>
+                                    <span class="pose-detail">Passive + Active</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Dragon Pose Progression</span>
+                                    <span class="pose-detail">Passive + Active (each side)</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Shoulder Dislocates with Band</span>
+                                    <span class="pose-detail">Passive + Active</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Bridge to Wheel Progression</span>
+                                    <span class="pose-detail">Passive + Active</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Single Leg Forward Fold with PNF</span>
+                                    <span class="pose-detail">Passive + Active (each side)</span>
+                                </div>
+                            </div>
+                            <div class="routine-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>This routine combines passive stretching with active contraction for optimal flexibility gains.</li>
+                                    <li>The active component is critical - engage the muscles you're stretching during the active phase.</li>
+                                    <li>PNF (Proprioceptive Neuromuscular Facilitation) involves contracting and then relaxing the stretched muscle.</li>
+                                    <li>Progress slowly and be patient with challenging positions.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Movement Mastery -->
+                <div class="routine-card" data-aos="fade-up">
+                    <div class="routine-header">
+                        <h3 class="routine-title">Movement Mastery</h3>
+                        <div class="routine-badges">
+                            <span class="badge badge-primary">Full Body</span>
+                            <span class="badge badge-primary">Equipment</span>
+                        </div>
+                    </div>
+                    <div class="routine-content">
+                        <div class="routine-image">
+                            <img src="https://images.unsplash.com/photo-1549576490-b0b4831ef60a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Movement Mastery">
+                        </div>
+                        <div class="routine-info">
+                            <div class="routine-stats">
+                                <div class="stat">
+                                    <span class="stat-value">5min</span>
+                                    <span class="stat-label">Per Movement</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">6</span>
+                                    <span class="stat-label">Movements</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">30s</span>
+                                    <span class="stat-label">Rest</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">40min</span>
+                                    <span class="stat-label">Total Time</span>
+                                </div>
+                            </div>
+                            <div class="routine-instructions">
+                                <h4>Instructions:</h4>
+                                <ol>
+                                    <li>Spend 5 minutes on each movement pattern, working on all aspects of the movement.</li>
+                                    <li>For each pattern, progress from basic to advanced variations based on your capability.</li>
+                                    <li>Focus on control, smoothness, and full range of motion rather than just going through the motions.</li>
+                                    <li>Rest 30 seconds between movement patterns.</li>
+                                    <li>Use equipment (bands, weights, etc.) for assistance or added resistance as needed.</li>
+                                </ol>
+                            </div>
+                            <div class="poses">
+                                <h4>Movement Patterns:</h4>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Squat Progressions</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Hip Hinge & Rotation</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Locomotive Patterns (Crawling, Rolling)</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Shoulder Controlled Articulation</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Single Leg Balance Work</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Spinal Articulation</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                                <div class="pose">
+                                    <span class="pose-name"><i class="fas fa-feather"></i> Ground Transition Flow</span>
+                                    <span class="pose-detail">5 minutes</span>
+                                </div>
+                            </div>
+                            <div class="routine-tips">
+                                <h4>Tips:</h4>
+                                <ul>
+                                    <li>This practice is about mastering movement quality rather than just stretching.</li>
+                                    <li>Focus on "owning" each position - can you move into and out of it with control?</li>
+                                    <li>Use mirrors or video feedback to check your form.</li>
+                                    <li>Progress by increasing range of motion, adding load, or reducing stability.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobility Timer Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Stretch Timer</h2>
+            <div class="timer-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="timer">
+                    <div class="timer-display">01:00</div>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-btn timer-btn-start" id="timer-start">Start</button>
+                    <button class="timer-btn timer-btn-reset" id="timer-reset">Reset</button>
+                </div>
+            </div>
+            <div class="program-description" style="text-align: center; max-width: 600px; margin: 2rem auto;">
+                <p>Use this timer for your stretching routines. Default is set to 60 seconds for optimal stretch duration. Holding a stretch for 60-90 seconds has been shown to be most effective for improving flexibility.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Benefits of Flexibility & Mobility Training</h2>
+            <div class="benefits-grid" data-aos="fade-up" data-aos-delay="100">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-running"></i></div>
+                    <h3 class="benefit-title">Improved Performance</h3>
+                    <p class="benefit-description">Greater range of motion allows for more efficient movement patterns, increasing power and reducing energy expenditure during physical activities.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3 class="benefit-title">Injury Prevention</h3>
+                    <p class="benefit-description">Mobile joints and flexible muscles are less prone to strains and tears, reducing your risk of both acute and overuse injuries.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-brain"></i></div>
+                    <h3 class="benefit-title">Better Posture</h3>
+                    <p class="benefit-description">Targeted mobility work helps correct muscle imbalances and alignment issues that contribute to poor posture and related pain.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-dumbbell"></i></div>
+                    <h3 class="benefit-title">Increased Strength</h3>
+                    <p class="benefit-description">Proper mobility allows you to achieve optimal positions in strength exercises, leading to better muscle activation and development.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-wind"></i></div>
+                    <h3 class="benefit-title">Stress Reduction</h3>
+                    <p class="benefit-description">Stretching and mobility work stimulates parasympathetic nervous system activity, reducing stress and promoting relaxation.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-clock"></i></div>
+                    <h3 class="benefit-title">Longevity</h3>
+                    <p class="benefit-description">Maintaining mobility as you age is crucial for independence, quality of life, and continued participation in physical activities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <span class="logo-fit">Fit</span>
+                        <span class="logo-cross">Cross</span>
+                    </div>
+                    <p class="footer-description">Your ultimate fitness companion for personalized workout plans, diet charts, and AI-powered training guidance.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+            <div class="footer-bottom">
+                <p>&copy; 2026 FitCross. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS Animation
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Level tab switching
+            const levelBtns = document.querySelectorAll('.level-btn');
+            const levelSections = document.querySelectorAll('.level-content');
+            
+            levelBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const level = this.dataset.level;
+                    
+                    // Update active button
+                    levelBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show correct section
+                    levelSections.forEach(section => {
+                        if (section.id === level + '-section') {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Stretch Timer Functionality
+            const timerDisplay = document.querySelector('.timer-display');
+            const timerStart = document.getElementById('timer-start');
+            const timerReset = document.getElementById('timer-reset');
+            const timer = document.querySelector('.timer');
+            
+            let countdown;
+            let timeLeft = 60; // Default 60 seconds for stretching
+            let isRunning = false;
+            
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update timer visual
+                const progress = (timeLeft / 60) * 100;
+                timer.style.background = `conic-gradient(var(--accent-teal) ${progress}%, var(--dark-surface) ${progress}%)`;
+            }
+            
+            function startTimer() {
+                if (isRunning) {
+                    clearInterval(countdown);
+                    isRunning = false;
+                    timerStart.textContent = 'Start';
+                    return;
+                }
+                
+                isRunning = true;
+                timerStart.textContent = 'Pause';
+                
+                countdown = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        isRunning = false;
+                        timerStart.textContent = 'Start';
+                        timeLeft = 60; // Reset to 60 seconds
+                        updateTimerDisplay();
+                        
+                        // Play a gentle chime sound
+                        try {
+                            const beep = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBhxQo97pr3EdBAIaMGiQpLrL3uvVqGk7GB0NFxEXIjRJW2h0f4iRmqKorLS5vr3CwsfM0dbd5Ovx+PL38vf7/P39+/r4+fb34OTn9v///vXo1sXDxMzT19PR18/I0djb19BOD2S97wAAAADArf/71fmYBCYLBvr4/fz6AM7l////fXjp/5mO0f/s+v/+r678/9X0//9mKfn/AHXg/3Ko9f8Lqvr/AYz1/zbK/5oPcvtrHL37AAHj/wAl1f8bM/n/AAL9/wk1//8A6f//Iij9/wAB//8AAP//AaP//wLY//8ATf//CoT//wC///8Xs///AI7//xxn//8A7v7/ABv//xZ+//8Avv//HkL//wAD//8GEOG8APL//wCp//8A0f//Bbj//6pQOAoAA4gK3Mv/AFT//wAA//8BAP//AKj//1kA//8AAP//gzNMlfLs+vr/////sq7Z5v///////9t+Vk5RTklTWGFpbF1IMjZOdJGwxtLR2+z8//////78+PXw7O3t9f///v77+ff08e3p7fL5/v///vjx7OXh4OLl6u/2+/////34+fr9/vr28vL0+P3//v/++/j29PT2+f3////////+/Pr59/f5/f///v/9+ff19vr+//////78+fb1+f7//wAAVM/qAAIC2gAAY3gAAHqXAABRfQAAJF4AAAtNAAAKRwA8S9cAQkzXADBJyAAkNJ0AAAAAAAAAABLJ5wBlzOsAAAAAAAAA/gAAAP0AAAD8AAAA+wAAAPsAAAD7AAAA+gAAAPoAAAD5AAAA+QAAABoS/QBWAJcAAAAAAg9L0AAQStHdAAAAAAAAAAAAAAAADmrhABBq4QAAAAAAAAAAAAAAABJ38wASd/MAAAAAAAAAAAAAAAAAAAAAAAAAAP8JCvkAAf//AQQFBv8TGBUfFAAJGR4GHxobAAAAAHO/4ABzv+AAAAAAAAAAAHPI1wBq0OAAa8/eAGzO3QBtzdsAb8vbAHDL2wBxy9sAccrZAHLK2QByytgAAAAAAAAAAABtlLUACVjaAAlY2gAIWNoAAAAAAAwP2gAMD9oAAAAAAAAAAAAA7Y9tkQAQEREAAAAAAP+V07UAp9XWAAAAAE3m3gBWwNAA6/f4AHXr7QC97vIAAAAAAAAAAAAAAAAAGxENDQDU7fIAwe3xAM3s8QAcEQ4NAv///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8AAAABAAAAAAEAAAAABgAAAA4AAAAWAAAAHwAAACcAAAAuAAAANAAAADgAAAA7AAAAOQAAADYAAAA0AAAAMwAAADMAAAAyAAAAMQAAADAAAAAuAAAALAAAACoAAAAnAAAAJAAAACEAAAAeAAAAGwAAABcAAAAUAAAAEQAAAA4AAAALAAAACQAAAAcAAAAGAAAABQAAAAQAAAADAAAAAQAAAAEAAAAAAAAAAAEAAwAGAAkADgASABcAHAAhACUAKgAuADMANwA7AD4AQQBEAEYAiV+SRYZTkE2NVJBQiVCVTYVMklCFSpFThEqSWYJJkl6CSJJjgEiTaIBHknGARJN4fUSTfnxDk4R6Q5OJeUOTjnhEk5N2RZOYdUeTnXRIk6JzSZOncUqTrHBLk7JuTJO5bU2TwGtOk8ZqT5PMaVGT0mdSk9dnU5Pdc5/TlXOf05lzn9Occ5/TnnOf06BzoNOic6DTpHOg06ZzoNOoc6DTqnOg06xzoNOuc6DTsHOg07JzoNO0c6HTtnOh07dzodO5c6HTu3Oh071zodO/c6HIlG2EyJRuhMiUb4TIlHCEyJRxhMiUcoTIlHOEyJR0hMiUdYTIlHaEyJR3hMiUeITIlHmEyJR6hMiUe4TIlHyEyJR9hMiUfoTIlH+EyJSAhMiUgYTIlIKEyJSDhMiUhITIlIWEyJSGhMiUh4TIlIiEyJSJhMiUioTIlIuEyJSMhMiUjYTIlI6EyJSPhMiUkITIlJGEyJSShMiUk4TIlJSEyJSVhMiUloTIlJeEyJSYhMiUmYTIlJqEyJSbhMiUnIQ=');
+                            beep.play();
+                        } catch (e) {
+                            console.log("Audio playback error:", e);
+                        }
+                    } else {
+                        timeLeft -= 1;
+                    }
+                    updateTimerDisplay();
+                }, 1000);
+            }
+            
+            function resetTimer() {
+                clearInterval(countdown);
+                isRunning = false;
+                timeLeft = 60;
+                timerStart.textContent = 'Start';
+                updateTimerDisplay();
+            }
+            
+            if (timerStart && timerReset) {
+                timerStart.addEventListener('click', startTimer);
+                timerReset.addEventListener('click', resetTimer);
+                
+                // Initialize timer display
+                updateTimerDisplay();
+            }
+        });
+    </script>
+</body>
+</html>

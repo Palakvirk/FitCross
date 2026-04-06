@@ -1,0 +1,108 @@
+{% if form.errors %}
+<div class="alert alert-danger">
+    Please fill all fields correctly.
+</div>
+{% endif %}
+
+{% extends "base.html" %}
+{% block title %}Sign Up - FitCross{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card" data-aos="fade-up">
+        <div class="auth-header">
+            <h2>Create Your Account</h2>
+            <p>Join FitCross and start your fitness journey</p>
+        </div>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            {% if form.errors %}
+            <div style="color:red; margin-bottom:10px;">
+                Please correct the errors below.
+            </div>
+            {% endif %}
+
+            <!-- USERNAME -->
+            <div class="form-group">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control") }}
+                {% for error in form.username.errors %}
+                    <div style="color:red">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <div style="color:red">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_password.label(class="form-label") }}
+                {{ form.confirm_password(class="form-control") }}
+            </div>
+
+            <h5 class="mt-4 mb-2">Fitness Profile</h5>
+
+            <div class="form-group">
+                {{ form.age.label(class="form-label") }}
+                {{ form.age(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.gender.label(class="form-label") }}
+                {{ form.gender(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.height.label(class="form-label") }}
+                {{ form.height(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.weight.label(class="form-label") }}
+                {{ form.weight(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.goal.label(class="form-label") }}
+                {{ form.goal(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.diet_preference.label(class="form-label") }}
+                {{ form.diet_preference(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.fitness_level.label(class="form-label") }}
+                {{ form.fitness_level(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.disease.label(class="form-label") }}
+                {{ form.disease(class="form-control") }}
+            </div>
+
+            <div class="form-group mt-4">
+                {{ form.submit(class="btn btn-primary btn-block") }}
+            </div>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

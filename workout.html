@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Workout Plan — FitCross</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --fire: #FF4D00;
+    --fire-dim: rgba(255,77,0,0.12);
+    --mint: #00F5C4;
+    --mint-dim: rgba(0,245,196,0.08);
+    --bg: #080808;
+    --surface: #101010;
+    --surface-2: #161616;
+    --surface-3: #1e1e1e;
+    --border: rgba(255,255,255,0.06);
+    --text: #f5f5f5;
+    --subtle: #333;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.4;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: -20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70vw;
+    height: 50vh;
+    background: radial-gradient(ellipse, rgba(255,77,0,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ── NAV ── */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--fire), #FF8C00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+}
+
+/* ── MAIN ── */
+main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s ease both;
+}
+
+.page-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.page-header h1 span {
+    background: linear-gradient(90deg, var(--fire), #FF9A3C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-header p {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ── CARDS ── */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,77,0,0.04) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+.card:hover {
+    border-color: rgba(255,77,0,0.2);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.2s; }
+
+.card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-label::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 1px;
+    background: var(--fire);
+    flex-shrink: 0;
+}
+
+/* ── FORM FIELDS ── */
+.field-group {
+    margin-bottom: 1.2rem;
+}
+
+.field-label {
+    display: block;
+    font-size: 0.72rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.45rem;
+}
+
+.field-input,
+.field-select {
+    width: 100%;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 11px 15px;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.field-input:focus,
+.field-select:focus {
+    border-color: var(--fire);
+    box-shadow: 0 0 0 3px rgba(255,77,0,0.12);
+}
+
+/* custom select arrow */
+.select-wrap {
+    position: relative;
+}
+
+.select-wrap::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(255,255,255,0.4);
+    pointer-events: none;
+}
+
+.field-select option {
+    background: #1e1e1e;
+    color: white;
+}
+
+/* remove spinner from number inputs */
+.field-input[type="number"]::-webkit-inner-spin-button,
+.field-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.field-input[type="number"] { -moz-appearance: textfield; }
+
+/* ── FORM GRID ── */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── INJURY CHECKBOXES ── */
+.injury-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.45rem;
+}
+
+.injury-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 7px 16px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+    color: rgba(255,255,255,0.85);
+}
+
+.injury-label:hover {
+    border-color: rgba(255,77,0,0.4);
+    color: white;
+}
+
+.injury-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.injury-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.injury-label input:checked ~ .injury-box {
+    background: var(--fire);
+    border-color: var(--fire);
+}
+
+.injury-box svg {
+    width: 10px; height: 10px;
+    stroke: white; fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s ease;
+}
+
+.injury-label input:checked ~ .injury-box svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.injury-label:has(input:checked) {
+    border-color: rgba(255,77,0,0.5);
+    background: rgba(255,77,0,0.08);
+    color: white;
+}
+
+/* ── SUBMIT BUTTON ── */
+.btn-fire {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 12px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #FF4D00, #FF7A30);
+    color: white;
+    box-shadow: 0 4px 20px rgba(255,77,0,0.3);
+    transition: all 0.25s ease;
+    position: relative;
+    z-index: 2;
+    margin-top: 1.2rem;
+    text-decoration: none;
+}
+
+.btn-fire:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255,77,0,0.45);
+    color: white;
+}
+
+/* ── HEALTH STATS ── */
+.stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.stat-box {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    transition: border-color 0.2s;
+}
+
+.stat-box:hover { border-color: rgba(255,77,0,0.25); }
+
+.stat-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.4rem;
+}
+
+.stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--fire);
+}
+
+.stat-cat {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+    margin-top: 0.2rem;
+}
+
+/* ── PROGRESSION ── */
+.progression-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.progression-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+}
+
+.prog-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--fire);
+    background: rgba(255,77,0,0.1);
+    border: 1px solid rgba(255,77,0,0.2);
+    border-radius: 50px;
+    padding: 2px 9px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ── WORKOUT PLAN ── */
+.day-section {
+    margin-bottom: 2rem;
+}
+
+.day-section:last-child { margin-bottom: 0; }
+
+.day-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    color: var(--mint);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.day-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(0,245,196,0.15);
+}
+
+.exercise-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--fire);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.6rem;
+    transition: all 0.2s ease;
+}
+
+.exercise-item:hover {
+    border-color: rgba(255,77,0,0.35);
+    border-left-color: var(--fire);
+    background: rgba(255,77,0,0.04);
+    transform: translateX(4px);
+}
+
+.exercise-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+}
+
+.exercise-diff {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    background: rgba(255,77,0,0.1);
+    border: 1px solid rgba(255,77,0,0.2);
+    color: #FF7A30;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 500px) {
+    nav { padding: 1rem 1.2rem; }
+    main { padding: 1.5rem 1rem 3rem; }
+    .stats-row { grid-template-columns: 1fr; }
+    .exercise-item { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">FITCROSS</a>
+</nav>
+
+<main>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>AI <span>WORKOUT</span> PLAN</h1>
+        <p>Personalized to your body &amp; goals</p>
+    </div>
+
+    <!-- FORM -->
+    <div class="card">
+        <div class="card-label">Your Details</div>
+
+        <form method="POST">
+
+            <!-- Row 1: age / weight / height -->
+            <div class="form-row">
+                <div class="field-group">
+                    <label class="field-label">Age</label>
+                    <input type="number" name="age" value="{{ request.form.age }}" class="field-input" placeholder="e.g. 25">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Weight (kg)</label>
+                    <input type="number" name="weight" value="{{ request.form.weight }}" class="field-input" placeholder="e.g. 70">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Height (cm)</label>
+                    <input type="number" name="height" value="{{ request.form.height }}" class="field-input" placeholder="e.g. 175">
+                </div>
+            </div>
+
+            <!-- Row 2: level / location / days -->
+            <div class="form-row">
+                <div class="field-group">
+                    <label class="field-label">Fitness Level</label>
+                    <div class="select-wrap">
+                        <select name="level" class="field-select">
+                            <option {% if request.form.level == "Beginner" %}selected{% endif %}>Beginner</option>
+                            <option {% if request.form.level == "Intermediate" %}selected{% endif %}>Intermediate</option>
+                            <option {% if request.form.level == "Advanced" %}selected{% endif %}>Advanced</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Location</label>
+                    <div class="select-wrap">
+                        <select name="location" class="field-select">
+                            <option {% if request.form.location == "Home" %}selected{% endif %}>Home</option>
+                            <option {% if request.form.location == "Gym" %}selected{% endif %}>Gym</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Days / Week</label>
+                    <div class="select-wrap">
+                        <select name="days" class="field-select">
+                            <option value="3">3 Days</option>
+                            <option value="4">4 Days</option>
+                            <option value="5">5 Days</option>
+                            <option value="6">6 Days</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Injuries -->
+            <div class="field-group">
+                <label class="field-label">Injuries (if any)</label>
+                <div class="injury-group">
+                    <label class="injury-label">
+                        <input type="checkbox" name="injuries" value="knee"
+                            {% if "knee" in request.form.getlist("injuries") %}checked{% endif %}>
+                        <div class="injury-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        Knee
+                    </label>
+                    <label class="injury-label">
+                        <input type="checkbox" name="injuries" value="Shoulder"
+                            {% if "Shoulder" in request.form.getlist("injuries") %}checked{% endif %}>
+                        <div class="injury-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        Shoulder
+                    </label>
+                    <label class="injury-label">
+                        <input type="checkbox" name="injuries" value="Back"
+                            {% if "Back" in request.form.getlist("injuries") %}checked{% endif %}>
+                        <div class="injury-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        Back
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-fire">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Generate My Plan
+            </button>
+
+        </form>
+    </div>
+
+    <!-- HEALTH ANALYSIS -->
+    {% if bmi %}
+    <div class="card">
+        <div class="card-label">Health Analysis</div>
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-title">BMI Score</div>
+                <div class="stat-value">{{ bmi }}</div>
+                <div class="stat-cat">{{ bmi_cat }}</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">Fitness Score</div>
+                <div class="stat-value">{{ score }}</div>
+                <div class="stat-cat">{{ fit_cat }}</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- PROGRESSION -->
+    {% if progression %}
+    <div class="card">
+        <div class="card-label">4-Week Progression</div>
+        <ul class="progression-list">
+            {% for p in progression %}
+            <li>
+                <span class="prog-num">W{{ loop.index }}</span>
+                {{ p }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- WORKOUT PLAN -->
+    {% if plan %}
+    <div class="card">
+        <div class="card-label">Your Workout Plan</div>
+        {% for day, exercises in plan.items() %}
+        <div class="day-section">
+            <div class="day-title">{{ day }}</div>
+            {% for ex in exercises %}
+            <div class="exercise-item">
+                <span class="exercise-name">{{ ex.Exercise }}</span>
+                <span class="exercise-diff">{{ ex.Difficulty }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</main>
+
+</body>
+</html>
